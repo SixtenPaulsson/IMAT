@@ -20,9 +20,7 @@ class MainView extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          SizedBox(height: AppTheme.paddingLarge),
           _header(context),
-          SizedBox(height: AppTheme.paddingMedium),
           Expanded(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -134,28 +132,34 @@ class MainView extends StatelessWidget {
     );
   }
 
-  Row _header(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  Column _header(BuildContext context) {
+    return Column(
       children: [
-        ElevatedButton(onPressed: () {}, child: Text('iMat')),
+        SizedBox(height: AppTheme.paddingLarge),
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            ElevatedButton(
-              onPressed: () {
-                dbugPrint('Historik-knapp');
-                _showHistory(context);
-              },
-              child: Text('Köphistorik'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                _showAccount(context);
-              },
-              child: Text('Användare'),
+            ElevatedButton(onPressed: () {}, child: Text('iMat')),
+            Row(
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    dbugPrint('Historik-knapp');
+                    _showHistory(context);
+                  },
+                  child: Text('Köphistorik'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    _showAccount(context);
+                  },
+                  child: Text('Användare'),
+                ),
+              ],
             ),
           ],
         ),
+        SizedBox(height: AppTheme.paddingMedium),
       ],
     );
   }
