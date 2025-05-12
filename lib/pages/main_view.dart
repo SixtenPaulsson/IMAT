@@ -22,6 +22,7 @@ class MainView extends StatelessWidget {
         children: [
           Expanded(flex: 10, child: _header(context)),
           Expanded(
+            flex: 90,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -139,7 +140,6 @@ class MainView extends StatelessWidget {
   Column _header(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: AppTheme.paddingLarge),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -163,7 +163,6 @@ class MainView extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: AppTheme.paddingMedium),
       ],
     );
   }
