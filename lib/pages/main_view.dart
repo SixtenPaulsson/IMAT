@@ -53,7 +53,7 @@ class MainView extends StatelessWidget {
     return Column(
       children: [
         Text('Kundvagn'),
-        Container(height: 600, child: CartView()),
+        SizedBox(height: 600, child: CartView()),
         ElevatedButton(
           onPressed: () {
             iMat.placeOrder();
