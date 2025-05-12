@@ -20,19 +20,23 @@ class MainView extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          _header(context),
+          Expanded(flex: 10, child: _header(context)),
           Expanded(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _leftPanel(iMat),
-                Container(
-                  width: 580,
+                Expanded(
+                  flex: 20,
+                  //height: 400,
+                  child: _leftPanel(iMat),
+                ),
+                Expanded(
+                  flex: 55,
                   //height: 400,
                   child: _centerStage(context, products),
                 ),
-                Container(
-                  width: 300,
+                Expanded(
+                  flex: 25,
                   //color: Colors.blueGrey,
                   child: _shoppingCart(iMat),
                 ),
