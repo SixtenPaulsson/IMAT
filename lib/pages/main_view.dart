@@ -1,13 +1,19 @@
 import 'package:api_test/app_theme.dart';
 import 'package:api_test/model/imat/product.dart';
+import 'package:api_test/model/imat/shopping_cart.dart' as model;
 import 'package:api_test/model/imat/util/functions.dart';
 import 'package:api_test/model/imat_data_handler.dart';
 import 'package:api_test/pages/account_view.dart';
 import 'package:api_test/pages/history_view.dart';
+import 'package:api_test/widgets/ShoppingCart.dart';
 import 'package:api_test/widgets/cart_view.dart';
 import 'package:api_test/widgets/product_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:api_test/widgets/LeftPanel.dart';
+import 'package:api_test/widgets/CenterStage.dart';
+
+
 
 class MainView extends StatelessWidget {
   const MainView({super.key});
@@ -20,26 +26,31 @@ class MainView extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          Expanded(flex: 10, child: _header(context)),
+          Container(
+            color: Colors.lightBlue, // Set light blue background for the header
+            height: 150, // Increase the height of the header
+            child: Column(
+              children: [
+                _header(context),
+              ],
+            ),
+          ),
           Expanded(
-            flex: 90,
+            flex: 86,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  flex: 20,
-                  //height: 400,
-                  child: _leftPanel(iMat),
+                  flex: 12,
+                  child: LeftPanel(iMat: iMat),
                 ),
                 Expanded(
-                  flex: 55,
-                  //height: 400,
-                  child: _centerStage(context, products),
+                  flex: 63,
+                  child: CenterStage(products: products),
                 ),
                 Expanded(
                   flex: 25,
-                  //color: Colors.blueGrey,
-                  child: _shoppingCart(iMat),
+                  child: ShoppingCart(iMat: iMat),
                 ),
               ],
             ),
@@ -49,134 +60,100 @@ class MainView extends StatelessWidget {
     );
   }
 
-  Widget _shoppingCart(ImatDataHandler iMat) {
-    return Column(
-      children: [
-        Text('Kundvagn'),
-        SizedBox(height: 600, child: CartView()),
-        ElevatedButton(
-          onPressed: () {
-            iMat.placeOrder();
-          },
-          child: Text('Köp!'),
-        ),
-      ],
-    );
-  }
 
-  Container _leftPanel(ImatDataHandler iMat) {
-    return Container(
-      width: 300,
-      color: const Color.fromARGB(255, 154, 172, 134),
-      child: Column(
-        children: [
-          SizedBox(height: AppTheme.paddingSmall),
-          SizedBox(
-            width: 132,
-            child: ElevatedButton(
-              onPressed: () {
-                iMat.selectAllProducts();
-              },
-              child: Text('Visa allt'),
-            ),
-          ),
-          SizedBox(height: AppTheme.paddingSmall),
-          SizedBox(
-            width: 132,
-            child: ElevatedButton(
-              onPressed: () {
-                //print('Favoriter');
-                iMat.selectFavorites();
-              },
-              child: Text('Favoriter'),
-            ),
-          ),
-          SizedBox(height: AppTheme.paddingSmall),
-          SizedBox(
-            width: 132,
-            child: ElevatedButton(
-              onPressed: () {
-                var products = iMat.products;
-                iMat.selectSelection([
-                  products[4],
-                  products[45],
-                  products[68],
-                  products[102],
-                  products[110],
-                ]);
-              },
-              child: Text('Urval'),
-            ),
-          ),
-          SizedBox(height: AppTheme.paddingSmall),
-          SizedBox(
-            width: 132,
-            child: ElevatedButton(
-              onPressed: () {
-                //print('Frukt');
-                iMat.selectSelection(
-                  iMat.findProductsByCategory(ProductCategory.CABBAGE),
-                );
-              },
-              child: Text('Grönsaker'),
-            ),
-          ),
-          SizedBox(height: AppTheme.paddingSmall),
-          SizedBox(
-            width: 132,
-            child: ElevatedButton(
-              onPressed: () {
-                //print('Söktest');
-                iMat.selectSelection(iMat.findProducts('mj'));
-              },
-              child: Text('Söktest'),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
   Column _header(BuildContext context) {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            ElevatedButton(onPressed: () {}, child: Text('iMat')),
-            Row(
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    dbugPrint('Historik-knapp');
-                    _showHistory(context);
-                  },
-                  child: Text('Köphistorik'),
+        Container(
+          color: Colors.lightBlue, // Set light blue background
+          height: 150, // Increased height for the header
+          padding: EdgeInsets.symmetric(horizontal: 20), // Add padding for spacing
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10), // Padding from the top for the "iMat" button
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white, // White button background
+                      foregroundColor: Colors.black, // Black text color
+                      textStyle: TextStyle(
+                        fontSize: 48, // Larger font size for "iMat"
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    child: Text('iMat'),
+                  ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    _showAccount(context);
-                  },
-                  child: Text('Användare'),
+              ),
+              Align(
+                alignment: Alignment.topRight,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10), // Padding from the top for the right buttons
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          dbugPrint('Historik-knapp');
+                          _showHistory(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white, // White button background
+                          foregroundColor: Colors.black, // Black text color
+                          textStyle: TextStyle(
+                            fontSize: 23, // Larger font size for buttons
+                          ),
+                        ),
+                        child: Text('Köphistorik'),
+                      ),
+                      SizedBox(width: 10), // Add spacing between buttons
+                      ElevatedButton(
+                        onPressed: () {
+                          _showAccount(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white, // White button background
+                          foregroundColor: Colors.black, // Black text color
+                          textStyle: TextStyle(
+                            fontSize: 23, // Larger font size for buttons
+                          ),
+                        ),
+                        child: Text('Användare'),
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
-          ],
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 10), // Padding from the bottom for the search bar
+                  child: SizedBox(
+                    width: 900, // Set a fixed width for the search bar to make it smaller in length
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Sök varor',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );
   }
 
-  Widget _centerStage(BuildContext context, List<Product> products) {
-    // ListView.builder has the advantage that tiles
-    // are built as needed.
-    return ListView.builder(
-      itemCount: products.length,
-      itemBuilder: (BuildContext context, int index) {
-        return ProductTile(products[index]);
-      },
-    );
-  }
 
   void _showAccount(context) {
     Navigator.push(
