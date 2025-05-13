@@ -10,7 +10,6 @@ import 'package:api_test/widgets/cart_view.dart';
 import 'package:api_test/widgets/logo.dart';
 import 'package:api_test/widgets/product_tile.dart';
 import 'package:api_test/widgets/searchbar.dart';
-import 'package:api_test/widgets/user_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:api_test/widgets/LeftPanel.dart';
