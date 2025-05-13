@@ -7,6 +7,7 @@ class Searchbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     return SizedBox(
       height: 40,
       child: TextField(
@@ -20,6 +21,31 @@ class Searchbar extends StatelessWidget {
           ),
           filled: true,
           fillColor: Colors.white,
+=======
+    return Align(
+      alignment: Alignment.topCenter,
+      child: Padding(
+        padding: const EdgeInsets.only(
+          top: 10,
+          bottom: 10,
+        ), // Padding from the bottom for the search bar
+        child: SizedBox(
+          width:
+              400, // Set a fixed width for the search bar to make it smaller in length
+          child: TextField(
+            onSubmitted: (String value) async {
+              iMat.selectSelection(iMat.findProducts(value));
+            },
+            decoration: InputDecoration(
+              hintText: 'Sök varor',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(24),
+              ),
+              filled: true,
+              fillColor: Colors.white,
+            ),
+          ),
+>>>>>>> ab9d09de904d22c2374b076acb9be675fd9d7dcd
         ),
       ),
     );

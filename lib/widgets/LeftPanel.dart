@@ -17,6 +17,11 @@ class LeftPanel extends StatelessWidget {
         children: [
           SizedBox(height: AppTheme.paddingTiny),
           _buildCard(
+            title: 'Köp igen',
+            onPressed: () => iMat.selectPreviousProducts(),
+          ),
+          SizedBox(height: AppTheme.paddingTiny),
+          _buildCard(
             title: 'Grill',
             onPressed: () {
               var products = iMat.products ?? [];
@@ -27,7 +32,11 @@ class LeftPanel extends StatelessWidget {
                   products[14],
                   products[15],
                   products[16],
+<<<<<<< HEAD
                 ], 'Grill');
+=======
+                ]);
+>>>>>>> ab9d09de904d22c2374b076acb9be675fd9d7dcd
               }
             },
           ),
@@ -53,17 +62,28 @@ class LeftPanel extends StatelessWidget {
                   products[68],
                   products[102],
                   products[110],
+<<<<<<< HEAD
                 ], 'Urval');
+=======
+                ]);
+>>>>>>> ab9d09de904d22c2374b076acb9be675fd9d7dcd
               }
             },
           ),
           SizedBox(height: AppTheme.paddingTiny),
           _buildCard(
             title: 'Grönsaker',
+<<<<<<< HEAD
             onPressed: () => iMat.selectSelection(
               iMat.findProductsByCategory(ProductCategory.CABBAGE),
               'Grönsaker'
             ),
+=======
+            onPressed:
+                () => iMat.selectSelection(
+                  iMat.findProductsByCategory(ProductCategory.CABBAGE),
+                ),
+>>>>>>> ab9d09de904d22c2374b076acb9be675fd9d7dcd
           ),
           SizedBox(height: AppTheme.paddingTiny),
           _buildCard(
@@ -74,39 +94,47 @@ class LeftPanel extends StatelessWidget {
       ),
     );
   }
-Widget _buildCard({required String title, required VoidCallback onPressed}) {
-  return InkWell(
-    onTap: onPressed, // Make the entire card clickable
-    hoverColor: const Color.fromARGB(255, 255, 1, 1), // Change color on hover
-    child: Card(
-      elevation: 5,
-      child: SizedBox(
-        width: 190,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 5, top: 5), // Add padding to the top-left
-              child: Text(
-                title,
-                style: TextStyle(fontSize: 16), // Adjust font size if needed
-              ),
-            ),
-            Spacer(), // Push the button to the right
-            Padding(
-              padding: const EdgeInsets.only(right: 5), // Add padding to the right
-              child: SizedBox(
-                height: 40, // Set the desired height for the button
-                child: ElevatedButton(
-                  onPressed: onPressed,
-                  child: const Text('Go To'), // Replace with your button text if needed
+
+  Widget _buildCard({required String title, required VoidCallback onPressed}) {
+    return InkWell(
+      onTap: onPressed, // Make the entire card clickable
+      hoverColor: const Color.fromARGB(255, 255, 1, 1), // Change color on hover
+      child: Card(
+        elevation: 5,
+        child: SizedBox(
+          width: 190,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 5,
+                  top: 5,
+                ), // Add padding to the top-left
+                child: Text(
+                  title,
+                  style: TextStyle(fontSize: 16), // Adjust font size if needed
                 ),
               ),
-            ),
-          ],
+              Spacer(), // Push the button to the right
+              Padding(
+                padding: const EdgeInsets.only(
+                  right: 5,
+                ), // Add padding to the right
+                child: SizedBox(
+                  height: 40, // Set the desired height for the button
+                  child: ElevatedButton(
+                    onPressed: onPressed,
+                    child: const Text(
+                      'Go To',
+                    ), // Replace with your button text if needed
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 }

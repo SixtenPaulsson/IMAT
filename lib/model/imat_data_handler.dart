@@ -62,6 +62,20 @@ class ImatDataHandler extends ChangeNotifier {
     notifyListeners();
   }
 
+  void selectPreviousProducts() {
+    _selectProducts.clear();
+
+    List<Product> list = [];
+
+    for (var order in _orders) {
+      for (var item in order.items) {
+        list.add(item.product);
+      }
+    }
+    _selectProducts.addAll(list.toSet().toList());
+    notifyListeners();
+  }
+
   // Välj alla favoritmarkerade produkter.
   // Detta sätter selectProducts till de produkter
   // som markerats som favoriter och informerar GUI:t
