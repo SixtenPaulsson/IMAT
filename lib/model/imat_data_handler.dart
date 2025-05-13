@@ -55,7 +55,7 @@ class ImatDataHandler extends ChangeNotifier {
         list.add(item.product);
       }
     }
-    _selectProducts.addAll(list);
+    _selectProducts.addAll(list.toSet().toList());
     notifyListeners();
   }
 
