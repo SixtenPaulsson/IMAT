@@ -18,7 +18,7 @@ class LeftPanel extends StatelessWidget {
           SizedBox(height: AppTheme.paddingTiny),
           _buildCard(
             title: 'Köp igen',
-            onPressed: () => iMat.selectAllProducts(),
+            onPressed: () => iMat.selectPreviousProducts(),
           ),
           SizedBox(height: AppTheme.paddingTiny),
           _buildCard(
