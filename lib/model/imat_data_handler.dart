@@ -29,6 +29,9 @@ class ImatDataHandler extends ChangeNotifier {
   // Access a list of all previous orders
   List<Order> get orders => _orders;
 
+  String _currentSelectionTitle = 'Populära varor denna veckan!!';
+  String get currentSelectionTitle => _currentSelectionTitle;
+
   //
   // Handle product selections
   //
@@ -42,6 +45,20 @@ class ImatDataHandler extends ChangeNotifier {
   void selectAllProducts() {
     _selectProducts.clear();
     _selectProducts.addAll(_products);
+    _currentSelectionTitle = 'Alla varor';
+    notifyListeners();
+  }
+
+  void selectPreviousProducts() {
+    _selectProducts.clear();
+    List<Product> list = [];
+    for (var order in _orders) {
+      for (var item in order.items) {
+        list.add(item.product);
+      }
+    }
+    _selectProducts.addAll(list.toSet().toList());
+    _currentSelectionTitle = 'Köp igen';
     notifyListeners();
   }
 
@@ -52,6 +69,7 @@ class ImatDataHandler extends ChangeNotifier {
   void selectFavorites() {
     _selectProducts.clear();
     _selectProducts.addAll(favorites);
+    _currentSelectionTitle = 'Favoriter';
     notifyListeners();
   }
 
@@ -59,9 +77,12 @@ class ImatDataHandler extends ChangeNotifier {
   // Sätter selectProducts till innehållet i listan selection.
   // Med denna metod kan man sätta urvalet till vad som helst.
   // Meddelar GUI:t att urvalet har ändrats
-  void selectSelection(List<Product> selection) {
+  void selectSelection(List<Product> selection, [String? title]) {
     _selectProducts.clear();
     _selectProducts.addAll(selection);
+    if (title != null) {
+      _currentSelectionTitle = title;
+    }
     notifyListeners();
   }
 

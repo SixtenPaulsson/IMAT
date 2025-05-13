@@ -20,14 +20,14 @@ class LeftPanel extends StatelessWidget {
             title: 'Grill',
             onPressed: () {
               var products = iMat.products ?? [];
-              if (products.isNotEmpty){
-              iMat.selectSelection([
-                products[4],
-                products[12],
-                products[14],
-                products[15],
-                products[16],
-              ]);
+              if (products.isNotEmpty) {
+                iMat.selectSelection([
+                  products[4],
+                  products[12],
+                  products[14],
+                  products[15],
+                  products[16],
+                ], 'Grill');
               }
             },
           ),
@@ -46,14 +46,14 @@ class LeftPanel extends StatelessWidget {
             title: 'Urval',
             onPressed: () {
               var products = iMat.products ?? [];
-              if (products.isNotEmpty){
-              iMat.selectSelection([
-                products[4],
-                products[45],
-                products[68],
-                products[102],
-                products[110],
-              ]);
+              if (products.isNotEmpty) {
+                iMat.selectSelection([
+                  products[4],
+                  products[45],
+                  products[68],
+                  products[102],
+                  products[110],
+                ], 'Urval');
               }
             },
           ),
@@ -62,6 +62,7 @@ class LeftPanel extends StatelessWidget {
             title: 'Grönsaker',
             onPressed: () => iMat.selectSelection(
               iMat.findProductsByCategory(ProductCategory.CABBAGE),
+              'Grönsaker'
             ),
           ),
           SizedBox(height: AppTheme.paddingTiny),

@@ -4,8 +4,13 @@ import 'package:api_test/model/imat/product.dart';
 
 class CenterStage extends StatelessWidget {
   final List<Product> products;
+  final String title;
 
-  const CenterStage({super.key, required this.products});
+  const CenterStage({
+    super.key, 
+    required this.products,
+    this.title = 'Populära varor denna veckan!!'
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +32,7 @@ class CenterStage extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(10), // Add padding inside the card
                   child: Text(
-                    'Populära varor denna veckan!!', // Replace with your desired text
+                    title, // Use the title parameter for the header text
                     style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -40,7 +45,7 @@ class CenterStage extends StatelessWidget {
                 crossAxisCount: 5, // 5 products per row
                 crossAxisSpacing: 10, // Spacing between columns
                 mainAxisSpacing: 10, // Spacing between rows
-                childAspectRatio: 1, // Adjust the aspect ratio of each product card
+                childAspectRatio: 0.5, // Decreased from 0.7 to 0.6 to make cards taller
               ),
               itemCount: products.length,
               itemBuilder: (BuildContext context, int index) {

@@ -17,57 +17,54 @@ class ProductTile extends StatelessWidget {
     return Card(
       elevation: 5,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10), // Rounded corners for the card
+        borderRadius: BorderRadius.circular(10),
       ),
-      child: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0), // Add padding inside the card
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start, // Align content to the left
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
               children: [
-                // Product Image with Rounded Edges
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8), // Rounded edges for the image
-                  child: SizedBox(
-                    width: 90,
-                    height: 90,
-                    child: iMat.getImage(product), // Display product image
+                Center(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: SizedBox(
+                      width: 120,
+                      height: 120,
+                      child: iMat.getImage(product),
+                    ),
                   ),
                 ),
-                const SizedBox(height: 8), // Spacing between image and text
-                // Product Name
-                Text(
-                  product.name,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  maxLines: 2, // Limit to 2 lines
-                  overflow: TextOverflow.ellipsis, // Add ellipsis if text overflows
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  child: _favoriteButton(product, context),
                 ),
-                const SizedBox(height: 4), // Spacing between name and price
-                // Product Price
-                Text(
-                  '${product.price.toStringAsFixed(2)} kr', // Display price with 2 decimal places
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.black,
-                  ),
-                ),
-                const SizedBox(height: 5), // Spacing between price and buy card
-                // Buy Card
-                BuyCard(product: product),
               ],
             ),
-          ),
-          // Star Icon in the Top-Right Corner
-          Positioned(
-            top: 8,
-            right: 8,
-            child: _favoriteButton(product, context),
-          ),
-        ],
+            const SizedBox(height: 8),
+            Text(
+              product.name,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+            const SizedBox(height: 4),
+            Text(
+              '${product.price.toStringAsFixed(2)} kr',
+              style: const TextStyle(
+                fontSize: 14,
+                color: Colors.black,
+              ),
+            ),
+            const Spacer(),
+            BuyCard(product: product),
+          ],
+        ),
       ),
     );
   }
