@@ -40,7 +40,7 @@ class MainView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(flex: 15, child: LeftPanel(iMat: iMat)),
-                Expanded(flex: 63, child: CenterStage(products: products)),
+                Expanded(flex: 60, child: CenterStage(products: products)),
                 Expanded(flex: 25, child: ShoppingCart(iMat: iMat)),
               ],
             ),
@@ -51,6 +51,7 @@ class MainView extends StatelessWidget {
   }
 
   Column _header(BuildContext context) {
+    var iMat = context.watch<ImatDataHandler>();
     return Column(
       children: [
         Container(
@@ -60,9 +61,10 @@ class MainView extends StatelessWidget {
           ), // Add padding for spacing
           child: Stack(
             children: [
-              Expanded(child: Logo()),
-              Expanded(child: Searchbar()),
+              Expanded(flex: 15, child: Logo()),
+              Expanded(flex: 60, child: Searchbar(iMat: iMat)),
               Expanded(
+                flex: 25,
                 child: Align(
                   alignment: Alignment.topRight,
                   child: Padding(

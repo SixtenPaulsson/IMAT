@@ -1,7 +1,9 @@
+import 'package:api_test/model/imat_data_handler.dart';
 import 'package:flutter/material.dart';
 
 class Searchbar extends StatelessWidget {
-  Searchbar({super.key});
+  final ImatDataHandler iMat;
+  const Searchbar({super.key, required this.iMat});
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +18,9 @@ class Searchbar extends StatelessWidget {
           width:
               400, // Set a fixed width for the search bar to make it smaller in length
           child: TextField(
+            onSubmitted: (String value) async {
+              iMat.selectSelection(iMat.findProducts(value));
+            },
             decoration: InputDecoration(
               hintText: 'Sök varor',
               border: OutlineInputBorder(
