@@ -24,19 +24,15 @@ class LeftPanel extends StatelessWidget {
           _buildCard(
             title: 'Grill',
             onPressed: () {
-              var products = iMat.products ?? [];
-              if (products.isNotEmpty) {
+              var products = iMat.products;
+              if (products != null && products.isNotEmpty) {
                 iMat.selectSelection([
                   products[4],
                   products[12],
                   products[14],
                   products[15],
                   products[16],
-<<<<<<< HEAD
                 ], 'Grill');
-=======
-                ]);
->>>>>>> ab9d09de904d22c2374b076acb9be675fd9d7dcd
               }
             },
           ),
@@ -62,33 +58,22 @@ class LeftPanel extends StatelessWidget {
                   products[68],
                   products[102],
                   products[110],
-<<<<<<< HEAD
                 ], 'Urval');
-=======
-                ]);
->>>>>>> ab9d09de904d22c2374b076acb9be675fd9d7dcd
               }
             },
           ),
           SizedBox(height: AppTheme.paddingTiny),
           _buildCard(
             title: 'Grönsaker',
-<<<<<<< HEAD
             onPressed: () => iMat.selectSelection(
               iMat.findProductsByCategory(ProductCategory.CABBAGE),
               'Grönsaker'
             ),
-=======
-            onPressed:
-                () => iMat.selectSelection(
-                  iMat.findProductsByCategory(ProductCategory.CABBAGE),
-                ),
->>>>>>> ab9d09de904d22c2374b076acb9be675fd9d7dcd
           ),
           SizedBox(height: AppTheme.paddingTiny),
           _buildCard(
             title: 'Söktest',
-            onPressed: () => iMat.selectSelection(iMat.findProducts('mj')),
+            onPressed: () => iMat.selectSelection(iMat.findProducts('mj'), 'Söktest'),
           ),
         ],
       ),
@@ -97,8 +82,8 @@ class LeftPanel extends StatelessWidget {
 
   Widget _buildCard({required String title, required VoidCallback onPressed}) {
     return InkWell(
-      onTap: onPressed, // Make the entire card clickable
-      hoverColor: const Color.fromARGB(255, 255, 1, 1), // Change color on hover
+      onTap: onPressed,
+      hoverColor: const Color.fromARGB(255, 255, 1, 1),
       child: Card(
         elevation: 5,
         child: SizedBox(
@@ -107,27 +92,20 @@ class LeftPanel extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(
-                  left: 5,
-                  top: 5,
-                ), // Add padding to the top-left
+                padding: const EdgeInsets.only(left: 5, top: 5),
                 child: Text(
                   title,
-                  style: TextStyle(fontSize: 16), // Adjust font size if needed
+                  style: TextStyle(fontSize: 16),
                 ),
               ),
-              Spacer(), // Push the button to the right
+              Spacer(),
               Padding(
-                padding: const EdgeInsets.only(
-                  right: 5,
-                ), // Add padding to the right
+                padding: const EdgeInsets.only(right: 5),
                 child: SizedBox(
-                  height: 40, // Set the desired height for the button
+                  height: 40,
                   child: ElevatedButton(
                     onPressed: onPressed,
-                    child: const Text(
-                      'Go To',
-                    ), // Replace with your button text if needed
+                    child: const Text('Go To'),
                   ),
                 ),
               ),

@@ -48,7 +48,6 @@ class ImatDataHandler extends ChangeNotifier {
     _currentSelectionTitle = 'Alla varor';
     notifyListeners();
   }
-
   void selectPreviousProducts() {
     _selectProducts.clear();
     List<Product> list = [];
@@ -59,20 +58,6 @@ class ImatDataHandler extends ChangeNotifier {
     }
     _selectProducts.addAll(list.toSet().toList());
     _currentSelectionTitle = 'Köp igen';
-    notifyListeners();
-  }
-
-  void selectPreviousProducts() {
-    _selectProducts.clear();
-
-    List<Product> list = [];
-
-    for (var order in _orders) {
-      for (var item in order.items) {
-        list.add(item.product);
-      }
-    }
-    _selectProducts.addAll(list.toSet().toList());
     notifyListeners();
   }
 
