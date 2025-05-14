@@ -1,6 +1,8 @@
 import 'package:api_test/app_theme.dart';
 import 'package:api_test/model/imat/order.dart';
 import 'package:api_test/model/imat_data_handler.dart';
+import 'package:api_test/pages/account_view.dart';
+import 'package:api_test/widgets/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -26,13 +28,11 @@ class _HistoryViewState extends State<HistoryView> {
 
     // Hämta datan som ska visas
     var orders = iMat.orders;
-
     return Scaffold(
       body: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(height: AppTheme.paddingLarge),
-          _header(context),
+          _header2(context),
           Expanded(
             child: Row(
               children: [
@@ -49,10 +49,51 @@ class _HistoryViewState extends State<HistoryView> {
                 ),
                 // Creates the view to the right showing the
                 // currently selected order.
-                Expanded(child: _orderDetails(_selectedOrder)),
+                Expanded(child: _orderDetails(_selectedOrder, iMat)),
               ],
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _header2(BuildContext context) {
+    return Container(
+      color: Colors.lightBlue,
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: Row(
+        children: [
+          const SizedBox(width: 20),
+          const Logo(),
+          const SizedBox(width: 40),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: SizedBox(),
+            ),
+          ),
+          const SizedBox(width: 20),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
+              textStyle: const TextStyle(fontSize: 23),
+            ),
+            child: const Text('Tillbaka'),
+          ),
+          const SizedBox(width: 10),
+          ElevatedButton(
+            onPressed: () => _showAccount(context),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
+              textStyle: const TextStyle(fontSize: 23),
+            ),
+            child: const Text('Användare'),
+          ),
+          const SizedBox(width: 20),
         ],
       ),
     );
@@ -109,7 +150,7 @@ class _HistoryViewState extends State<HistoryView> {
   // order will be null.
   // In the null case the function returns SizedBox.shrink()
   // which is a what to use to create an empty widget.
-  Widget _orderDetails(Order? order) {
+  Widget _orderDetails(Order? order, ImatDataHandler imat) {
     if (order != null) {
       return Column(
         children: [
@@ -119,7 +160,16 @@ class _HistoryViewState extends State<HistoryView> {
           ),
           SizedBox(height: AppTheme.paddingSmall),
           for (final item in order.items)
-            Text('${item.product.name}, ${item.amount}'),
+            Row(
+              children: [
+                SizedBox(
+                  height: 100,
+                  width: 100,
+                  child: imat.getImage(item.product),
+                ),
+                Expanded(child: Text('${item.product.name}, ${item.amount}')),
+              ],
+            ),
           SizedBox(height: AppTheme.paddingSmall),
           Text(
             'Totalt: ${order.getTotal().toStringAsFixed(2)}kr',
@@ -130,4 +180,11 @@ class _HistoryViewState extends State<HistoryView> {
     }
     return SizedBox.shrink();
   }
+}
+
+void _showAccount(BuildContext context) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => const AccountView()),
+  );
 }
