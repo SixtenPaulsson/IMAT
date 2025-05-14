@@ -31,7 +31,9 @@ class _LeftPanelState extends State<LeftPanel> {
             },
             isFirstButton: true,
           ),
-          SizedBox(height: AppTheme.paddingSmall), // Extra spacing after Köp igen
+          SizedBox(
+            height: AppTheme.paddingSmall,
+          ), // Extra spacing after Köp igen
           _buildCard(
             title: 'Grill',
             onPressed: () {
@@ -92,62 +94,49 @@ class _LeftPanelState extends State<LeftPanel> {
               );
             },
           ),
-          SizedBox(height: AppTheme.paddingSmall),
-          _buildCard(
-            title: 'Söktest',
-            onPressed: () {
-              setState(() => selectedTitle = 'Söktest');
-              widget.iMat.selectSelection(widget.iMat.findProducts('mj'), 'Söktest');
-            },
-          ),
-          SizedBox(height: AppTheme.paddingSmall), // Add bottom padding
         ],
       ),
     );
   }
 
   Widget _buildCard({
-    required String title, 
+    required String title,
     required VoidCallback onPressed,
     bool isFirstButton = false,
   }) {
     final isSelected = selectedTitle == title;
-    
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: isFirstButton ? Colors.red : 
-                         isSelected ? Colors.grey[300] : Colors.white,
+          backgroundColor:
+              isFirstButton
+                  ? Colors.red
+                  : isSelected
+                  ? Colors.grey[300]
+                  : Colors.white,
           foregroundColor: isFirstButton ? Colors.white : Colors.black,
           elevation: 2,
           padding: const EdgeInsets.symmetric(horizontal: 16),
           minimumSize: const Size.fromHeight(52), // Increased height by 10px
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         ).copyWith(
-          overlayColor: MaterialStateProperty.resolveWith<Color?>(
-            (Set<MaterialState> states) {
-              if (states.contains(MaterialState.hovered)) {
-                return isFirstButton ? Colors.red[700] : Colors.grey[200];
-              }
-              return null;
-            },
-          ),
+          overlayColor: MaterialStateProperty.resolveWith<Color?>((
+            Set<MaterialState> states,
+          ) {
+            if (states.contains(MaterialState.hovered)) {
+              return isFirstButton ? Colors.red[700] : Colors.grey[200];
+            }
+            return null;
+          }),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              title,
-              style: const TextStyle(fontSize: 16),
-            ),
-            const Icon(
-              Icons.arrow_forward,
-              size: 20,
-            ),
+            Text(title, style: const TextStyle(fontSize: 16)),
+            const Icon(Icons.arrow_forward, size: 20),
           ],
         ),
       ),
