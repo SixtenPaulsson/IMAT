@@ -48,12 +48,17 @@ class ImatDataHandler extends ChangeNotifier {
     _currentSelectionTitle = 'Alla varor';
     notifyListeners();
   }
+
   void selectPreviousProducts() {
     _selectProducts.clear();
     List<Product> list = [];
-    for (var order in _orders) {
+    List<String> names = [];
+    for (var order in _orders.reversed) {
       for (var item in order.items) {
-        list.add(item.product);
+        if (!names.contains(item.product.name)) {
+          list.add(item.product);
+          names.add(item.product.name);
+        }
       }
     }
     _selectProducts.addAll(list.toSet().toList());
