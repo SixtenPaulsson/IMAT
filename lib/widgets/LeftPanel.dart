@@ -3,10 +3,17 @@ import 'package:api_test/model/imat/product.dart';
 import 'package:api_test/model/imat_data_handler.dart';
 import 'package:flutter/material.dart';
 
-class LeftPanel extends StatelessWidget {
+class LeftPanel extends StatefulWidget {
   final ImatDataHandler iMat;
 
   const LeftPanel({super.key, required this.iMat});
+
+  @override
+  State<LeftPanel> createState() => _LeftPanelState();
+}
+
+class _LeftPanelState extends State<LeftPanel> {
+  String? selectedTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -15,18 +22,23 @@ class LeftPanel extends StatelessWidget {
       color: const Color.fromARGB(255, 154, 172, 134),
       child: Column(
         children: [
-          SizedBox(height: AppTheme.paddingTiny),
+          SizedBox(height: AppTheme.paddingSmall),
           _buildCard(
             title: 'Köp igen',
-            onPressed: () => iMat.selectPreviousProducts(),
+            onPressed: () {
+              setState(() => selectedTitle = 'Köp igen');
+              widget.iMat.selectPreviousProducts();
+            },
+            isFirstButton: true,
           ),
-          SizedBox(height: AppTheme.paddingTiny),
+          SizedBox(height: AppTheme.paddingSmall), // Extra spacing after Köp igen
           _buildCard(
             title: 'Grill',
             onPressed: () {
-              var products = iMat.products;
+              setState(() => selectedTitle = 'Grill');
+              var products = widget.iMat.products;
               if (products != null && products.isNotEmpty) {
-                iMat.selectSelection([
+                widget.iMat.selectSelection([
                   products[4],
                   products[12],
                   products[14],
@@ -36,23 +48,30 @@ class LeftPanel extends StatelessWidget {
               }
             },
           ),
-          SizedBox(height: AppTheme.paddingTiny),
+          SizedBox(height: AppTheme.paddingSmall),
           _buildCard(
             title: 'Visa allting',
-            onPressed: () => iMat.selectAllProducts(),
+            onPressed: () {
+              setState(() => selectedTitle = 'Visa allting');
+              widget.iMat.selectAllProducts();
+            },
           ),
-          SizedBox(height: AppTheme.paddingTiny),
+          SizedBox(height: AppTheme.paddingSmall),
           _buildCard(
             title: 'Favoriter',
-            onPressed: () => iMat.selectFavorites(),
+            onPressed: () {
+              setState(() => selectedTitle = 'Favoriter');
+              widget.iMat.selectFavorites();
+            },
           ),
-          SizedBox(height: AppTheme.paddingTiny),
+          SizedBox(height: AppTheme.paddingSmall),
           _buildCard(
             title: 'Urval',
             onPressed: () {
-              var products = iMat.products ?? [];
+              setState(() => selectedTitle = 'Urval');
+              var products = widget.iMat.products;
               if (products.isNotEmpty) {
-                iMat.selectSelection([
+                widget.iMat.selectSelection([
                   products[4],
                   products[45],
                   products[68],
@@ -62,55 +81,74 @@ class LeftPanel extends StatelessWidget {
               }
             },
           ),
-          SizedBox(height: AppTheme.paddingTiny),
+          SizedBox(height: AppTheme.paddingSmall),
           _buildCard(
             title: 'Grönsaker',
-            onPressed: () => iMat.selectSelection(
-              iMat.findProductsByCategory(ProductCategory.CABBAGE),
-              'Grönsaker'
-            ),
+            onPressed: () {
+              setState(() => selectedTitle = 'Grönsaker');
+              widget.iMat.selectSelection(
+                widget.iMat.findProductsByCategory(ProductCategory.CABBAGE),
+                'Grönsaker',
+              );
+            },
           ),
-          SizedBox(height: AppTheme.paddingTiny),
+          SizedBox(height: AppTheme.paddingSmall),
           _buildCard(
             title: 'Söktest',
-            onPressed: () => iMat.selectSelection(iMat.findProducts('mj'), 'Söktest'),
+            onPressed: () {
+              setState(() => selectedTitle = 'Söktest');
+              widget.iMat.selectSelection(widget.iMat.findProducts('mj'), 'Söktest');
+            },
           ),
+          SizedBox(height: AppTheme.paddingSmall), // Add bottom padding
         ],
       ),
     );
   }
 
-  Widget _buildCard({required String title, required VoidCallback onPressed}) {
-    return InkWell(
-      onTap: onPressed,
-      hoverColor: const Color.fromARGB(255, 255, 1, 1),
-      child: Card(
-        elevation: 5,
-        child: SizedBox(
-          width: 190,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 5, top: 5),
-                child: Text(
-                  title,
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
-              Spacer(),
-              Padding(
-                padding: const EdgeInsets.only(right: 5),
-                child: SizedBox(
-                  height: 40,
-                  child: ElevatedButton(
-                    onPressed: onPressed,
-                    child: const Text('Go To'),
-                  ),
-                ),
-              ),
-            ],
+  Widget _buildCard({
+    required String title, 
+    required VoidCallback onPressed,
+    bool isFirstButton = false,
+  }) {
+    final isSelected = selectedTitle == title;
+    
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: isFirstButton ? Colors.red : 
+                         isSelected ? Colors.grey[300] : Colors.white,
+          foregroundColor: isFirstButton ? Colors.white : Colors.black,
+          elevation: 2,
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          minimumSize: const Size.fromHeight(52), // Increased height by 10px
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
           ),
+        ).copyWith(
+          overlayColor: MaterialStateProperty.resolveWith<Color?>(
+            (Set<MaterialState> states) {
+              if (states.contains(MaterialState.hovered)) {
+                return isFirstButton ? Colors.red[700] : Colors.grey[200];
+              }
+              return null;
+            },
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(fontSize: 16),
+            ),
+            const Icon(
+              Icons.arrow_forward,
+              size: 20,
+            ),
+          ],
         ),
       ),
     );

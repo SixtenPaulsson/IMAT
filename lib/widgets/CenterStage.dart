@@ -42,10 +42,10 @@ class CenterStage extends StatelessWidget {
           Expanded(
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 5, // 5 products per row
+                crossAxisCount: 4, // 5 products per row
                 crossAxisSpacing: 10, // Spacing between columns
                 mainAxisSpacing: 10, // Spacing between rows
-                childAspectRatio: 0.5, // Decreased from 0.7 to 0.6 to make cards taller
+                childAspectRatio: 0.65, // Decreased from 0.7 to 0.6 to make cards taller
               ),
               itemCount: products.length,
               itemBuilder: (BuildContext context, int index) {
