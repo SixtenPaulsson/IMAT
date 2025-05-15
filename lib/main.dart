@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'iMat Demo',
-      theme: ThemeData(colorScheme: AppTheme.colorScheme),
+      theme: ThemeData(colorScheme: AppTheme.colorScheme, fontFamily: 'Lexend'),
       home: const MainView(),
     );
   }
