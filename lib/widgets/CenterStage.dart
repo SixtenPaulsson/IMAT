@@ -15,11 +15,11 @@ class CenterStage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0), // Add padding from LeftPanel and ShoppingCart
+      padding: const EdgeInsets.symmetric(horizontal: 8.0), // Add padding from LeftPanel and ShoppingCart
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5), // Padding for the top card
+            padding: const EdgeInsets.symmetric(horizontal: 0), // Padding for the top card
             child: SizedBox(
               width: double.infinity, // Make the card stretch horizontally
               height: 65, // Set the desired height for the card
@@ -43,9 +43,9 @@ class CenterStage extends StatelessWidget {
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 4, // 5 products per row
-                crossAxisSpacing: 10, // Spacing between columns
+                crossAxisSpacing: 12, // Spacing between columns
                 mainAxisSpacing: 10, // Spacing between rows
-                childAspectRatio: 0.65, // Decreased from 0.7 to 0.6 to make cards taller
+                childAspectRatio: 0.59, // Decreased from 0.7 to 0.6 to make cards taller
               ),
               itemCount: products.length,
               itemBuilder: (BuildContext context, int index) {
