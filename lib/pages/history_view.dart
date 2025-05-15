@@ -161,7 +161,7 @@ class _HistoryViewState extends State<HistoryView> {
   // which is a what to use to create an empty widget.
   Widget _orderDetails(Order? order, ImatDataHandler imat) {
     if (order != null) {
-      return Column(
+      return ListView(
         children: [
           Text(
             'Order ${order.orderNumber}',
@@ -177,6 +177,15 @@ class _HistoryViewState extends State<HistoryView> {
                   child: imat.getImage(item.product),
                 ),
                 Expanded(child: Text('${item.product.name}, ${item.amount}')),
+                Expanded(
+                  child: IconButton(
+                    icon: Icon(Icons.add),
+                    onPressed: () {
+                      setState(() {});
+                      imat.shoppingCartUpdate(item, delta: 1);
+                    },
+                  ),
+                ),
               ],
             ),
           SizedBox(height: AppTheme.paddingSmall),
