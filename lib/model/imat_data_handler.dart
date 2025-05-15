@@ -294,6 +294,10 @@ class ImatDataHandler extends ChangeNotifier {
     setShoppingCart();
   }
 
+  int shoppingCarItemAmount(ShoppingItem item) {
+    return getShoppingCart().countProductAmount(item.product);
+  }
+
   // Uppdaterar mängden som finns av item med delta.
   // Ett positiv värde ökar mängden och ett negativ minskar.
   // Om värdet blir <= 0 så tas item bort ur kundvagnen.

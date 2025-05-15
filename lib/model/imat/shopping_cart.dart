@@ -1,3 +1,4 @@
+import 'package:api_test/model/imat/product.dart';
 import 'package:api_test/model/imat/shopping_item.dart';
 
 class ShoppingCart {
@@ -100,4 +101,13 @@ class ShoppingCart {
   */
 
   static const _items = 'items';
+
+  int countProductAmount(Product p) {
+    for (var item in items) {
+      if (item.product == p) {
+        return item.amount.toInt();
+      }
+    }
+    return 0;
+  }
 }

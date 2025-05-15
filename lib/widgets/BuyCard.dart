@@ -20,7 +20,8 @@ class _BuyCardState extends State<BuyCard> {
   @override
   Widget build(BuildContext context) {
     var iMat = Provider.of<ImatDataHandler>(context, listen: false);
-
+    quantity = iMat.shoppingCarItemAmount(ShoppingItem(widget.product));
+    if (quantity == 0) isBuying = false;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       child:
@@ -33,10 +34,6 @@ class _BuyCardState extends State<BuyCard> {
                     icon: const Icon(Icons.remove),
                     onPressed: () {
                       if (quantity > 0) {
-                        setState(() {
-                          quantity--;
-                        });
-
                         iMat.shoppingCartUpdate(
                           ShoppingItem(widget.product),
                           delta: -1,
@@ -65,6 +62,11 @@ class _BuyCardState extends State<BuyCard> {
                         quantity++;
                       });
                       iMat.shoppingCartAdd(ShoppingItem(widget.product));
+                      setState(() {
+                        quantity = iMat.shoppingCarItemAmount(
+                          ShoppingItem(widget.product),
+                        );
+                      });
                     },
                   ),
                 ],
@@ -81,7 +83,12 @@ class _BuyCardState extends State<BuyCard> {
                     iMat.shoppingCartAdd(ShoppingItem(widget.product));
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 206, 144, 50), // Set the button color
+                    backgroundColor: const Color.fromARGB(
+                      255,
+                      206,
+                      144,
+                      50,
+                    ), // Set the button color
                     foregroundColor: Colors.black, // Set the text color
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8), // Rounded corners
