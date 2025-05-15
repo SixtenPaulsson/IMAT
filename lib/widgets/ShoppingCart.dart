@@ -1,6 +1,7 @@
 import 'package:api_test/model/imat/shopping_item.dart';
 import 'package:api_test/model/imat_data_handler.dart';
 import 'package:api_test/model/imat/product.dart';
+import 'package:api_test/pages/checkout_wizard.dart';
 import 'package:flutter/material.dart';
 
 class ShoppingCart extends StatelessWidget {
@@ -145,7 +146,9 @@ class ShoppingCart extends StatelessWidget {
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  iMat.placeOrder();
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const CheckoutWizard()),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red, // Set button color to red
@@ -249,7 +252,7 @@ class _ModifyCartDialogState extends State<_ModifyCartDialog> {
                                       const SizedBox(width: 8),
                                       Text(
                                         '${item.product.price.toStringAsFixed(2)} kr',
-                                        style: const TextStyle(fontSize: 13, color: Colors.black, fontWeight: FontWeight.normal),
+                                        style: const TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.normal),
                                       ),
                                     ],
                                   ),
