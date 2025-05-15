@@ -54,6 +54,24 @@ class ProductTile extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
             const SizedBox(height: 4),
+            ElevatedButton(
+              onPressed: () {
+                //iMat.showProductDetails(product);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: const Text('Mer info', 
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.black,
+                  )
+                ),
+            ),
+            const SizedBox(height: 4),
             Text(
               '${product.price.toStringAsFixed(2)} kr',
               style: const TextStyle(
