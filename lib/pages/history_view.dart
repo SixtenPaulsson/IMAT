@@ -2,6 +2,7 @@ import 'package:api_test/app_theme.dart';
 import 'package:api_test/model/imat/order.dart';
 import 'package:api_test/model/imat_data_handler.dart';
 import 'package:api_test/pages/account_view.dart';
+import 'package:api_test/widgets/ShoppingCart.dart';
 import 'package:api_test/widgets/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -36,8 +37,8 @@ class _HistoryViewState extends State<HistoryView> {
           Expanded(
             child: Row(
               children: [
-                Container(
-                  width: 300,
+                Expanded(
+                  flex: 15,
                   //height: 600,
                   // Creates the list to the left.
                   // When a user taps on an item the function _selectOrder is called
@@ -49,7 +50,8 @@ class _HistoryViewState extends State<HistoryView> {
                 ),
                 // Creates the view to the right showing the
                 // currently selected order.
-                Expanded(child: _orderDetails(_selectedOrder, iMat)),
+                Expanded(flex: 60, child: _orderDetails(_selectedOrder, iMat)),
+                Expanded(flex: 25, child: ShoppingCart(iMat: iMat)),
               ],
             ),
           ),
