@@ -29,6 +29,13 @@ class _HistoryViewState extends State<HistoryView> {
 
     // Hämta datan som ska visas
     var orders = iMat.orders;
+    //Försöker välja en order från början
+    if (_selectedOrder == null) {
+      //ba ifall man inte valt
+      if (orders.isNotEmpty) {
+        _selectedOrder = orders[orders.length - 1]; //väljer senaste
+      }
+    }
     return Scaffold(
       body: Column(
         mainAxisSize: MainAxisSize.min,
