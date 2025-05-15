@@ -131,6 +131,8 @@ class ScrollBehaviorWithCustomScrollbar extends ScrollBehavior {
     ScrollableDetails details,
   ) {
     return Scrollbar(
+      controller:
+          ScrollController(), //La till den här raden så att programmet inte blir surt
       thumbVisibility: true, // Always show the scrollbar thumb
       thickness: 12.0, // Adjust the thickness of the scrollbar
       radius: Radius.circular(8.0), // Rounded edges for the scrollbar
