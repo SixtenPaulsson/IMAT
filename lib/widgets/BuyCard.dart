@@ -81,7 +81,7 @@ class _BuyCardState extends State<BuyCard> {
                     iMat.shoppingCartAdd(ShoppingItem(widget.product));
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red, // Set the button color
+                    backgroundColor: const Color.fromARGB(255, 206, 144, 50), // Set the button color
                     foregroundColor: Colors.black, // Set the text color
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8), // Rounded corners

@@ -19,7 +19,7 @@ class _LeftPanelState extends State<LeftPanel> {
   Widget build(BuildContext context) {
     return Container(
       width: 300,
-      color: const Color.fromARGB(255, 154, 172, 134),
+      color: const Color.fromARGB(255, 127, 187, 59),
       child: Column(
         children: [
           SizedBox(height: AppTheme.paddingSmall),

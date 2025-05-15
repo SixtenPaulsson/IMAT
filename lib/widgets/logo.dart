@@ -14,7 +14,7 @@ class Logo extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(6.0),
           child: Image.asset(
-            'assets/images/imat_logo.png',
+            'assets/images/imat_logo.jpg',
             height: 60,
           ),
         ),

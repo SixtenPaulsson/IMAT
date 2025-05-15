@@ -21,7 +21,7 @@ class MainView extends StatelessWidget {
       body: Column(
         children: [
           Container(
-            color: Colors.lightBlue,
+            color: const Color.fromARGB(255, 176, 169, 35),
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Row(
               children: [

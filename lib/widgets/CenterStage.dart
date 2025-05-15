@@ -22,9 +22,9 @@ class CenterStage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 5), // Padding for the top card
             child: SizedBox(
               width: double.infinity, // Make the card stretch horizontally
-              height: 150, // Set the desired height for the card
+              height: 65, // Set the desired height for the card
               child: Card(
-                color: Colors.lightBlue, // Set the background color of the card
+                color: const Color.fromARGB(255, 115, 158, 40), // Set the background color of the card
                 elevation: 5,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10), // Rounded corners
@@ -33,7 +33,7 @@ class CenterStage extends StatelessWidget {
                   padding: const EdgeInsets.all(10), // Add padding inside the card
                   child: Text(
                     title, // Use the title parameter for the header text
-                    style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),

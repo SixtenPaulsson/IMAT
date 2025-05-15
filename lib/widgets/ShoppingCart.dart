@@ -23,7 +23,7 @@ class ShoppingCart extends StatelessWidget {
             // Header Text
             const Text(
               'Din Shopping Lista',
-              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const Divider(color: Colors.black, thickness: 2), // Black line
             // Scrollable Center Section
