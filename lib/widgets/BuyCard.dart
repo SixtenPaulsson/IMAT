@@ -23,68 +23,79 @@ class _BuyCardState extends State<BuyCard> {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      child: isBuying
-          ? Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Minus Button
-                IconButton(
-                  icon: const Icon(Icons.remove),
-                  onPressed: () {
-                    if (quantity > 0) {
-                      setState(() {
-                        quantity--;
-                      });
-                      iMat.shoppingCartRemove(ShoppingItem(widget.product));
-                      if (quantity == 0) {
+      child:
+          isBuying
+              ? Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Minus Button
+                  IconButton(
+                    icon: const Icon(Icons.remove),
+                    onPressed: () {
+                      if (quantity > 0) {
                         setState(() {
-                          isBuying = false; // Hide controls if quantity is 0
+                          quantity--;
                         });
+
+                        iMat.shoppingCartUpdate(
+                          ShoppingItem(widget.product),
+                          delta: -1,
+                        );
+                        if (quantity == 0) {
+                          setState(() {
+                            isBuying = false; // Hide controls if quantity is 0
+                          });
+                        }
                       }
-                    }
-                  },
-                ),
-                // Quantity Text
-                Text(
-                  '$quantity',
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                // Plus Button
-                IconButton(
-                  icon: const Icon(Icons.add),
+                    },
+                  ),
+                  // Quantity Text
+                  Text(
+                    '$quantity',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  // Plus Button
+                  IconButton(
+                    icon: const Icon(Icons.add),
+                    onPressed: () {
+                      setState(() {
+                        quantity++;
+                      });
+                      iMat.shoppingCartAdd(ShoppingItem(widget.product));
+                    },
+                  ),
+                ],
+              )
+              : SizedBox(
+                width: double.infinity, // Make the button stretch horizontally
+                height: 45, // Set the desired height for the button
+                child: ElevatedButton(
                   onPressed: () {
                     setState(() {
-                      quantity++;
+                      isBuying = true; // Show controls when "Buy" is clicked
+                      quantity = 1; // Start with 1 item
                     });
                     iMat.shoppingCartAdd(ShoppingItem(widget.product));
                   },
-                ),
-              ],
-            )
-          : SizedBox(
-              width: double.infinity, // Make the button stretch horizontally
-              height: 45, // Set the desired height for the button
-              child: ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    isBuying = true; // Show controls when "Buy" is clicked
-                    quantity = 1; // Start with 1 item
-                  });
-                  iMat.shoppingCartAdd(ShoppingItem(widget.product));
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red, // Set the button color
-                  foregroundColor: Colors.black, // Set the text color
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8), // Rounded corners
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red, // Set the button color
+                    foregroundColor: Colors.black, // Set the text color
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8), // Rounded corners
+                    ),
+                  ),
+                  child: const Text(
+                    'Köp',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ), // Larger text
                   ),
                 ),
-                child: const Text(
-                  'Köp',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold), // Larger text
-                ),
               ),
-            ),
     );
   }
 }
