@@ -1,5 +1,6 @@
 import 'package:api_test/app_theme.dart';
 import 'package:api_test/model/imat/order.dart';
+import 'package:api_test/model/imat/shopping_item.dart';
 import 'package:api_test/model/imat_data_handler.dart';
 import 'package:api_test/pages/account_view.dart';
 import 'package:api_test/widgets/ShoppingCart.dart';
@@ -141,6 +142,35 @@ class _HistoryViewState extends State<HistoryView> {
     );
   }
 
+  Widget _producttile(ShoppingItem item, ImatDataHandler imat) {
+    return Card(
+      elevation: 5,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            SizedBox(
+              height: 100,
+              width: 100,
+              child: imat.getImage(item.product),
+            ),
+            Expanded(child: Text('${item.product.name}, ${item.amount}')),
+            Expanded(
+              child: IconButton(
+                icon: Icon(Icons.add),
+                onPressed: () {
+                  setState(() {});
+                  imat.shoppingCartUpdate(item, delta: 1);
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   _selectOrder(Order order) {
     setState(() {
       //dbugPrint('select order ${order.orderNumber}');
@@ -168,26 +198,8 @@ class _HistoryViewState extends State<HistoryView> {
             style: Theme.of(context).textTheme.headlineSmall,
           ),
           SizedBox(height: AppTheme.paddingSmall),
-          for (final item in order.items)
-            Row(
-              children: [
-                SizedBox(
-                  height: 100,
-                  width: 100,
-                  child: imat.getImage(item.product),
-                ),
-                Expanded(child: Text('${item.product.name}, ${item.amount}')),
-                Expanded(
-                  child: IconButton(
-                    icon: Icon(Icons.add),
-                    onPressed: () {
-                      setState(() {});
-                      imat.shoppingCartUpdate(item, delta: 1);
-                    },
-                  ),
-                ),
-              ],
-            ),
+          for (final item in order.items) _producttile(item, imat),
+
           SizedBox(height: AppTheme.paddingSmall),
           Text(
             'Totalt: ${order.getTotal().toStringAsFixed(2)}kr',
