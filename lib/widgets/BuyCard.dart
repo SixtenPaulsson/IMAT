@@ -21,7 +21,7 @@ class _BuyCardState extends State<BuyCard> {
   Widget build(BuildContext context) {
     var iMat = Provider.of<ImatDataHandler>(context, listen: false);
     quantity = iMat.shoppingCarItemAmount(ShoppingItem(widget.product));
-    if (quantity == 0) isBuying = false;
+    isBuying = quantity > 0;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       child:
@@ -38,11 +38,7 @@ class _BuyCardState extends State<BuyCard> {
                           ShoppingItem(widget.product),
                           delta: -1,
                         );
-                        if (quantity == 0) {
-                          setState(() {
-                            isBuying = false; // Hide controls if quantity is 0
-                          });
-                        }
+                        setState(() {});
                       }
                     },
                   ),
@@ -58,15 +54,8 @@ class _BuyCardState extends State<BuyCard> {
                   IconButton(
                     icon: const Icon(Icons.add),
                     onPressed: () {
-                      setState(() {
-                        quantity++;
-                      });
                       iMat.shoppingCartAdd(ShoppingItem(widget.product));
-                      setState(() {
-                        quantity = iMat.shoppingCarItemAmount(
-                          ShoppingItem(widget.product),
-                        );
-                      });
+                      setState(() {}); //uppdaterar kortet
                     },
                   ),
                 ],
@@ -76,11 +65,8 @@ class _BuyCardState extends State<BuyCard> {
                 height: 45, // Set the desired height for the button
                 child: ElevatedButton(
                   onPressed: () {
-                    setState(() {
-                      isBuying = true; // Show controls when "Buy" is clicked
-                      quantity = 1; // Start with 1 item
-                    });
                     iMat.shoppingCartAdd(ShoppingItem(widget.product));
+                    setState(() {});
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(
