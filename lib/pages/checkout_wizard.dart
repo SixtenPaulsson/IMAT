@@ -1,4 +1,6 @@
+import 'package:api_test/model/imat_data_handler.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CheckoutWizard extends StatefulWidget {
   const CheckoutWizard({super.key});
@@ -9,7 +11,6 @@ class CheckoutWizard extends StatefulWidget {
 
 class _CheckoutWizardState extends State<CheckoutWizard> {
   int _step = 0;
-
   // Personal info controllers
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
@@ -34,15 +35,16 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
     {'date': '2025-05-17', 'time': '13:00-15:00'},
   ];
 
-  void _nextStep() {
+  void _nextStep(ImatDataHandler imat) {
     if (_step < 2) {
       setState(() => _step++);
     } else {
       // Submit order logic here
+      imat.placeOrder();
       Navigator.of(context).pop();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Order skickad!')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Order skickad!')));
     }
   }
 
@@ -64,11 +66,7 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
   }
 
   Widget _buildStepIndicator() {
-    final steps = [
-      'Personlig information',
-      'Betalnings metod',
-      'Leverans dag',
-    ];
+    final steps = ['Personlig information', 'Betalnings metod', 'Leverans dag'];
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: List.generate(steps.length, (i) {
@@ -79,15 +77,17 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
             children: [
               CircleAvatar(
                 radius: 18,
-                backgroundColor: isActive
-                    ? Colors.blue
-                    : isCompleted
+                backgroundColor:
+                    isActive
+                        ? Colors.blue
+                        : isCompleted
                         ? Colors.blue[200]
                         : Colors.white,
                 child: Text(
                   steps[i][0],
                   style: TextStyle(
-                    color: isActive || isCompleted ? Colors.white : Colors.black,
+                    color:
+                        isActive || isCompleted ? Colors.white : Colors.black,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -119,14 +119,35 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Personlig information', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+        const Text(
+          'Personlig information',
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 16),
-        TextField(controller: _firstNameController, decoration: const InputDecoration(labelText: 'Förnamn')),
-        TextField(controller: _lastNameController, decoration: const InputDecoration(labelText: 'Efternamn')),
-        TextField(controller: _phoneController, decoration: const InputDecoration(labelText: 'Telefonnummer')),
-        TextField(controller: _emailController, decoration: const InputDecoration(labelText: 'E-post')),
-        TextField(controller: _addressController, decoration: const InputDecoration(labelText: 'Adress')),
-        TextField(controller: _postCodeController, decoration: const InputDecoration(labelText: 'Postnummer')),
+        TextField(
+          controller: _firstNameController,
+          decoration: const InputDecoration(labelText: 'Förnamn'),
+        ),
+        TextField(
+          controller: _lastNameController,
+          decoration: const InputDecoration(labelText: 'Efternamn'),
+        ),
+        TextField(
+          controller: _phoneController,
+          decoration: const InputDecoration(labelText: 'Telefonnummer'),
+        ),
+        TextField(
+          controller: _emailController,
+          decoration: const InputDecoration(labelText: 'E-post'),
+        ),
+        TextField(
+          controller: _addressController,
+          decoration: const InputDecoration(labelText: 'Adress'),
+        ),
+        TextField(
+          controller: _postCodeController,
+          decoration: const InputDecoration(labelText: 'Postnummer'),
+        ),
       ],
     );
   }
@@ -135,13 +156,31 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Betalningsmetod', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+        const Text(
+          'Betalningsmetod',
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 16),
-        TextField(controller: _cardNumberController, decoration: const InputDecoration(labelText: 'Kortnummer')),
-        TextField(controller: _cardNameController, decoration: const InputDecoration(labelText: 'Namn på kortet')),
-        TextField(controller: _monthController, decoration: const InputDecoration(labelText: 'Giltig månad (MM)')),
-        TextField(controller: _yearController, decoration: const InputDecoration(labelText: 'Giltigt år (YY)')),
-        TextField(controller: _cvvController, decoration: const InputDecoration(labelText: 'CVV-kod')),
+        TextField(
+          controller: _cardNumberController,
+          decoration: const InputDecoration(labelText: 'Kortnummer'),
+        ),
+        TextField(
+          controller: _cardNameController,
+          decoration: const InputDecoration(labelText: 'Namn på kortet'),
+        ),
+        TextField(
+          controller: _monthController,
+          decoration: const InputDecoration(labelText: 'Giltig månad (MM)'),
+        ),
+        TextField(
+          controller: _yearController,
+          decoration: const InputDecoration(labelText: 'Giltigt år (YY)'),
+        ),
+        TextField(
+          controller: _cvvController,
+          decoration: const InputDecoration(labelText: 'CVV-kod'),
+        ),
       ],
     );
   }
@@ -150,7 +189,10 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Leveransdag', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+        const Text(
+          'Leveransdag',
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 16),
         ...List.generate(_deliveryOptions.length, (i) {
           final opt = _deliveryOptions[i];
@@ -170,12 +212,17 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
 
   @override
   Widget build(BuildContext context) {
+    var iMat = Provider.of<ImatDataHandler>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Checkout'),
-        leading: _step > 0
-            ? IconButton(icon: const Icon(Icons.arrow_back), onPressed: _prevStep)
-            : null,
+        leading:
+            _step > 0
+                ? IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: _prevStep,
+                )
+                : null,
       ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -190,7 +237,7 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 ElevatedButton(
-                  onPressed: _nextStep,
+                  onPressed: () => _nextStep(iMat),
                   child: Text(_step < 2 ? 'Nästa' : 'Slutför'),
                 ),
               ],
