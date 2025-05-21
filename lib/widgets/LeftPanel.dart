@@ -19,7 +19,7 @@ class _LeftPanelState extends State<LeftPanel> {
   Widget build(BuildContext context) {
     return Container(
       width: 300,
-      color: AppTheme.colorScheme.secondaryContainer,
+      color: const Color.fromARGB(255, 127, 187, 59),
       child: Column(
         children: [
           SizedBox(height: AppTheme.paddingSmall),
@@ -34,13 +34,12 @@ class _LeftPanelState extends State<LeftPanel> {
           SizedBox(
             height: AppTheme.paddingSmall,
           ), // Extra spacing after Köp igen
-
           _buildCard(
             title: 'Grill',
             onPressed: () {
               setState(() => selectedTitle = 'Grill');
               var products = widget.iMat.products;
-              if (products.isNotEmpty) {
+              if (products != null && products.isNotEmpty) {
                 widget.iMat.selectSelection([
                   products[4],
                   products[12],

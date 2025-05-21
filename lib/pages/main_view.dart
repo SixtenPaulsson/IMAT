@@ -1,4 +1,3 @@
-import 'package:api_test/app_theme.dart';
 import 'package:api_test/model/imat_data_handler.dart';
 import 'package:api_test/pages/account_view.dart';
 import 'package:api_test/pages/history_view.dart';
@@ -23,7 +22,7 @@ class MainView extends StatelessWidget {
       body: Column(
         children: [
           Container(
-            color: AppTheme.colorScheme.primary,
+            color: const Color.fromARGB(255, 176, 169, 35),
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Row(
               children: [
