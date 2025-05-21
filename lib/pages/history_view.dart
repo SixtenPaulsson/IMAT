@@ -3,6 +3,7 @@ import 'package:api_test/model/imat/order.dart';
 import 'package:api_test/model/imat/shopping_item.dart';
 import 'package:api_test/model/imat_data_handler.dart';
 import 'package:api_test/pages/account_view.dart';
+import 'package:api_test/pages/main_view.dart';
 import 'package:api_test/widgets/ShoppingCart.dart';
 import 'package:api_test/widgets/logo.dart';
 import 'package:flutter/material.dart';
@@ -85,13 +86,13 @@ class _HistoryViewState extends State<HistoryView> {
           ),
           const SizedBox(width: 20),
           ElevatedButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => _showMainview(context),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white,
               foregroundColor: Colors.black,
               textStyle: const TextStyle(fontSize: 23),
             ),
-            child: const Text('Tillbaka'),
+            child: const Text('Handla'),
           ),
           const SizedBox(width: 10),
           ElevatedButton(
@@ -218,3 +219,10 @@ void _showAccount(BuildContext context) {
     MaterialPageRoute(builder: (context) => const AccountView()),
   );
 }
+
+void _showMainview(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const MainView()),
+    );
+  }

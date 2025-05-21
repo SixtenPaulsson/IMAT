@@ -1,3 +1,4 @@
+import 'package:api_test/app_theme.dart';
 import 'package:api_test/model/imat/customer.dart';
 import 'package:api_test/model/imat_data_handler.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +44,7 @@ class _CustomerDetailsState extends State<CustomerDetails> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      spacing: AppTheme.paddingMedium,
       children: [
         TextField(
           controller: _firstNameController,

@@ -1,3 +1,4 @@
+import 'package:api_test/app_theme.dart';
 import 'package:api_test/model/imat/credit_card.dart';
 import 'package:api_test/model/imat_data_handler.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +39,7 @@ class _CardDetailsState extends State<CardDetails> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      spacing: AppTheme.paddingMedium,
       children: [
         TextField(
           controller: _typeController,
