@@ -246,35 +246,13 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
             setState(() => _savedPersonalInfo.clear());
           },
         ),
-        const Text(
-          'Personlig information',
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-        ),
         const SizedBox(height: 16),
-        TextField(
-          controller: _firstNameController,
-          decoration: const InputDecoration(labelText: 'Förnamn'),
-        ),
-        TextField(
-          controller: _lastNameController,
-          decoration: const InputDecoration(labelText: 'Efternamn'),
-        ),
-        TextField(
-          controller: _phoneController,
-          decoration: const InputDecoration(labelText: 'Telefonnummer'),
-        ),
-        TextField(
-          controller: _emailController,
-          decoration: const InputDecoration(labelText: 'E-post'),
-        ),
-        TextField(
-          controller: _addressController,
-          decoration: const InputDecoration(labelText: 'Adress'),
-        ),
-        TextField(
-          controller: _postCodeController,
-          decoration: const InputDecoration(labelText: 'Postnummer'),
-        ),
+        TextField(controller: _firstNameController, decoration: const InputDecoration(labelText: 'Förnamn')),
+        TextField(controller: _lastNameController, decoration: const InputDecoration(labelText: 'Efternamn')),
+        TextField(controller: _phoneController, decoration: const InputDecoration(labelText: 'Telefonnummer')),
+        TextField(controller: _emailController, decoration: const InputDecoration(labelText: 'E-post')),
+        TextField(controller: _addressController, decoration: const InputDecoration(labelText: 'Adress')),
+        TextField(controller: _postCodeController, decoration: const InputDecoration(labelText: 'Postnummer')),
         const SizedBox(height: 16),
         ElevatedButton(
           onPressed: () async {
@@ -294,30 +272,6 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
             );
           },
           child: const Text('Spara'),
-        ),
-        TextField(
-          controller: _firstNameController,
-          decoration: const InputDecoration(labelText: 'Förnamn'),
-        ),
-        TextField(
-          controller: _lastNameController,
-          decoration: const InputDecoration(labelText: 'Efternamn'),
-        ),
-        TextField(
-          controller: _phoneController,
-          decoration: const InputDecoration(labelText: 'Telefonnummer'),
-        ),
-        TextField(
-          controller: _emailController,
-          decoration: const InputDecoration(labelText: 'E-post'),
-        ),
-        TextField(
-          controller: _addressController,
-          decoration: const InputDecoration(labelText: 'Adress'),
-        ),
-        TextField(
-          controller: _postCodeController,
-          decoration: const InputDecoration(labelText: 'Postnummer'),
         ),
       ],
     );
@@ -438,13 +392,6 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
             style: TextStyle(color: Colors.black),
           ), // Changed color to black
         ),
-        leading:
-            _step > 0
-                ? IconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: _prevStep,
-                )
-                : null,
       ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
