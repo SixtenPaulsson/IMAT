@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 import 'package:api_test/widgets/LeftPanel.dart';
 import 'package:api_test/widgets/CenterStage.dart';
 
-
 class MainView extends StatelessWidget {
   const MainView({super.key});
 
