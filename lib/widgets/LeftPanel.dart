@@ -113,7 +113,7 @@ class _LeftPanelState extends State<LeftPanel> {
         style: ElevatedButton.styleFrom(
           backgroundColor:
               isFirstButton
-                  ? AppTheme.colorScheme.tertiary
+                  ? Colors.red
                   : isSelected
                   ? Colors.grey[300]
                   : Colors.white,
@@ -127,9 +127,7 @@ class _LeftPanelState extends State<LeftPanel> {
             Set<MaterialState> states,
           ) {
             if (states.contains(MaterialState.hovered)) {
-              return isFirstButton
-                  ? AppTheme.colorScheme.tertiaryContainer
-                  : Colors.grey[200];
+              return isFirstButton ? Colors.red[700] : Colors.grey[200];
             }
             return null;
           }),

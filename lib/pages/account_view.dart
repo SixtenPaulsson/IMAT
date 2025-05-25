@@ -24,7 +24,7 @@ class AccountView extends StatelessWidget {
 
   Widget _header(BuildContext context) {
     return Container(
-      color: AppTheme.colorScheme.primary,
+      color: Colors.lightBlue,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Row(
         children: [
@@ -73,19 +73,13 @@ class AccountView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Användaruppgifter:',
-                  style: TextStyle(fontSize: AppTheme.paddingLarge),
-                ),
+                Text('Användaruppgifter:', style: TextStyle(fontSize: AppTheme.paddingLarge),),
                 Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    color: AppTheme.colorScheme.inversePrimary,
-                    border: Border.all(
-                      color: AppTheme.colorScheme.primary,
-                      width: 2,
-                    ),
-                  ),
+                    borderRadius: 
+                      BorderRadius.circular(4), 
+                      color: AppTheme.colorScheme.inversePrimary,
+                      border: Border.all(color: AppTheme.colorScheme.primary, width: 2)),
                   padding: EdgeInsets.all(AppTheme.paddingMedium),
                   child: CustomerDetails(),
                 ),
@@ -97,19 +91,13 @@ class AccountView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Kortdetaljer:',
-                  style: TextStyle(fontSize: AppTheme.paddingLarge),
-                ),
+                Text('Kortdetaljer:', style: TextStyle(fontSize: AppTheme.paddingLarge),),
                 Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    color: AppTheme.colorScheme.inversePrimary,
-                    border: Border.all(
-                      color: AppTheme.colorScheme.primary,
-                      width: 2,
-                    ),
-                  ),
+                    borderRadius: 
+                      BorderRadius.circular(4), 
+                      color: AppTheme.colorScheme.inversePrimary,
+                      border: Border.all(color: AppTheme.colorScheme.primary, width: 2)),
                   padding: EdgeInsets.all(AppTheme.paddingMedium),
                   child: CardDetails(),
                 ),
