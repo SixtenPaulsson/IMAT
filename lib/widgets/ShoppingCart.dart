@@ -1,3 +1,4 @@
+import 'package:api_test/app_theme.dart';
 import 'package:api_test/model/imat/shopping_item.dart';
 import 'package:api_test/model/imat_data_handler.dart';
 import 'package:api_test/model/imat/product.dart';
@@ -34,7 +35,10 @@ class ShoppingCart extends StatelessWidget {
             // Header Text
             const Text(
               'Din Shopping Lista',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold), // Smaller font size
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ), // Smaller font size
             ),
             const Divider(color: Colors.black, thickness: 2), // Black line
             // Scrollable Center Section
@@ -43,80 +47,121 @@ class ShoppingCart extends StatelessWidget {
                 behavior: ScrollBehaviorWithCustomScrollbar(),
                 child: Builder(
                   builder: (context) {
-                    final items = List<ShoppingItem>.from(iMat.getShoppingCart().items)
-                      ..sort((a, b) => a.product.category.index.compareTo(b.product.category.index));
+                    final items = List<ShoppingItem>.from(
+                      iMat.getShoppingCart().items,
+                    )..sort(
+                      (a, b) => a.product.category.index.compareTo(
+                        b.product.category.index,
+                      ),
+                    );
                     Map<ProductCategory, List<ShoppingItem>> grouped = {};
                     for (var item in items) {
-                      grouped.putIfAbsent(item.product.category, () => []).add(item);
+                      grouped
+                          .putIfAbsent(item.product.category, () => [])
+                          .add(item);
                     }
                     return ListView(
-                      children: grouped.entries.expand((entry) {
-                        return [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
-                            child: Text(
-                              entry.key.name,
-                              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          ...entry.value.map((item) => Card(
-                            elevation: 4,
-                            margin: const EdgeInsets.symmetric(vertical: 6),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(8),
-                                    child: SizedBox(
-                                      width: 40,
-                                      height: 40,
-                                      child: iMat.getImage(item.product),
-                                    ),
+                      children:
+                          grouped.entries.expand((entry) {
+                            return [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 8.0,
+                                  horizontal: 4.0,
+                                ),
+                                child: Text(
+                                  entry.key.name,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                ),
+                              ),
+                              ...entry.value.map(
+                                (item) => Card(
+                                  elevation: 4,
+                                  margin: const EdgeInsets.symmetric(
+                                    vertical: 6,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
-                                        Text(
-                                          item.product.name,
-                                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                                        ),
-                                        const SizedBox(height: 4),
-                                        ElevatedButton(
-                                          onPressed: () {
-                                            _showModifyDialog(context);
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.grey[300],
-                                            foregroundColor: Colors.black,
-                                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                                            textStyle: const TextStyle(fontSize: 12),
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.circular(
+                                            8,
                                           ),
-                                          child: const Text('Ändra Antal'),
+                                          child: SizedBox(
+                                            width: 40,
+                                            height: 40,
+                                            child: iMat.getImage(item.product),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 12),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                item.product.name,
+                                                style: const TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              const SizedBox(height: 4),
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  _showModifyDialog(context);
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor:
+                                                      Colors.grey[300],
+                                                  foregroundColor: Colors.black,
+                                                  padding:
+                                                      const EdgeInsets.symmetric(
+                                                        horizontal: 12,
+                                                        vertical: 4,
+                                                      ),
+                                                  textStyle: const TextStyle(
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                                child: const Text(
+                                                  'Ändra Antal',
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 12.0,
+                                          ),
+                                          child: Text(
+                                            'x${item.amount}',
+                                            style: const TextStyle(
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          '${(item.amount * item.product.price).toStringAsFixed(2)} kr',
+                                          style: const TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
                                       ],
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                                    child: Text(
-                                      'x${item.amount}',
-                                      style: const TextStyle(fontSize: 15),
-                                    ),
-                                  ),
-                                  Text(
-                                    '${(item.amount * item.product.price).toStringAsFixed(2)} kr',
-                                    style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                                  ),
-                                ],
+                                ),
                               ),
-                            ),
-                          )),
-                        ];
-                      }).toList(),
+                            ];
+                          }).toList(),
                     );
                   },
                 ),
@@ -147,12 +192,15 @@ class ShoppingCart extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const CheckoutWizard()),
+                    MaterialPageRoute(
+                      builder: (context) => const CheckoutWizard(),
+                    ),
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red, // Set button color to red
-                  foregroundColor: Colors.black, // Set text color to black
+                  backgroundColor:
+                      AppTheme.colorScheme.tertiary, // Set button color to red
+                  foregroundColor: Colors.white, // Set text color to black
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8), // Rounded corners
                   ),
@@ -184,12 +232,17 @@ class _ModifyCartDialogState extends State<_ModifyCartDialog> {
   @override
   Widget build(BuildContext context) {
     final items = List<ShoppingItem>.from(widget.iMat.getShoppingCart().items)
-      ..sort((a, b) => a.product.category.index.compareTo(b.product.category.index));
+      ..sort(
+        (a, b) => a.product.category.index.compareTo(b.product.category.index),
+      );
     Map<ProductCategory, List<ShoppingItem>> grouped = {};
     for (var item in items) {
       grouped.putIfAbsent(item.product.category, () => []).add(item);
     }
-    double total = items.fold(0, (sum, item) => sum + item.amount * item.product.price);
+    double total = items.fold(
+      0,
+      (sum, item) => sum + item.amount * item.product.price,
+    );
     return Dialog(
       insetPadding: const EdgeInsets.all(24),
       backgroundColor: Colors.white,
@@ -203,7 +256,10 @@ class _ModifyCartDialogState extends State<_ModifyCartDialog> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Ändra antal produkter', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                const Text(
+                  'Ändra antal produkter',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
                 IconButton(
                   icon: const Icon(Icons.close),
                   onPressed: () => Navigator.of(context).pop(),
@@ -213,109 +269,156 @@ class _ModifyCartDialogState extends State<_ModifyCartDialog> {
             const Divider(),
             Expanded(
               child: ListView(
-                children: grouped.entries.expand((entry) {
-                  return [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
-                      child: Text(
-                        entry.key.name,
-                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    ...entry.value.map((item) => Card(
-                      elevation: 4,
-                      margin: const EdgeInsets.symmetric(vertical: 6),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: SizedBox(
-                                width: 40,
-                                height: 40,
-                                child: widget.iMat.getImage(item.product),
-                              ),
+                children:
+                    grouped.entries.expand((entry) {
+                      return [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 8.0,
+                            horizontal: 4.0,
+                          ),
+                          child: Text(
+                            entry.key.name,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
                             ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                          ),
+                        ),
+                        ...entry.value.map(
+                          (item) => Card(
+                            elevation: 4,
+                            margin: const EdgeInsets.symmetric(vertical: 6),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(8),
+                                    child: SizedBox(
+                                      width: 40,
+                                      height: 40,
+                                      child: widget.iMat.getImage(item.product),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text(
+                                              item.product.name,
+                                              style: const TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            const SizedBox(width: 8),
+                                            Text(
+                                              '${item.product.price.toStringAsFixed(2)} kr',
+                                              style: const TextStyle(
+                                                fontSize: 15,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.normal,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                   Row(
                                     children: [
-                                      Text(
-                                        item.product.name,
-                                        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                      IconButton(
+                                        icon: const Icon(Icons.remove),
+                                        onPressed: () {
+                                          if (item.amount > 1) {
+                                            widget.iMat.shoppingCartUpdate(
+                                              item,
+                                              delta: -1,
+                                            );
+                                          } else {
+                                            widget.iMat.shoppingCartRemove(
+                                              item,
+                                            );
+                                            if (widget.iMat
+                                                .getShoppingCart()
+                                                .items
+                                                .isEmpty) {
+                                              Navigator.of(context).pop();
+                                            }
+                                          }
+                                          _update();
+                                        },
                                       ),
-                                      const SizedBox(width: 8),
                                       Text(
-                                        '${item.product.price.toStringAsFixed(2)} kr',
-                                        style: const TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.normal),
+                                        'x${item.amount}',
+                                        style: const TextStyle(fontSize: 15),
+                                      ),
+                                      IconButton(
+                                        icon: const Icon(Icons.add),
+                                        onPressed: () {
+                                          widget.iMat.shoppingCartUpdate(
+                                            item,
+                                            delta: 1,
+                                          );
+                                          _update();
+                                        },
                                       ),
                                     ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 12.0,
+                                    ),
+                                    child: Text(
+                                      '${(item.amount * item.product.price).toStringAsFixed(2)} kr',
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  // Ta bort button
+                                  TextButton(
+                                    onPressed: () {
+                                      widget.iMat.shoppingCartRemove(item);
+                                      _update();
+                                      if (widget.iMat
+                                          .getShoppingCart()
+                                          .items
+                                          .isEmpty) {
+                                        Navigator.of(context).pop();
+                                      }
+                                    },
+                                    style: TextButton.styleFrom(
+                                      foregroundColor: Colors.white,
+                                      backgroundColor:
+                                          AppTheme.colorScheme.tertiary,
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 10,
+                                        vertical: 4,
+                                      ),
+                                      minimumSize: const Size(0, 32),
+                                      tapTargetSize:
+                                          MaterialTapTargetSize.shrinkWrap,
+                                    ),
+                                    child: const Text(
+                                      'Ta bort',
+                                      style: TextStyle(fontSize: 12),
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
-                            Row(
-                              children: [
-                                IconButton(
-                                  icon: const Icon(Icons.remove),
-                                  onPressed: () {
-                                    if (item.amount > 1) {
-                                      widget.iMat.shoppingCartUpdate(item, delta: -1);
-                                    } else {
-                                      widget.iMat.shoppingCartRemove(item);
-                                      if (widget.iMat.getShoppingCart().items.isEmpty) {
-                                        Navigator.of(context).pop();
-                                      }
-                                    }
-                                    _update();
-                                  },
-                                ),
-                                Text('x${item.amount}', style: const TextStyle(fontSize: 15)),
-                                IconButton(
-                                  icon: const Icon(Icons.add),
-                                  onPressed: () {
-                                    widget.iMat.shoppingCartUpdate(item, delta: 1);
-                                    _update();
-                                  },
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                              child: Text(
-                                '${(item.amount * item.product.price).toStringAsFixed(2)} kr',
-                                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            // Ta bort button
-                            TextButton(
-                              onPressed: () {
-                                widget.iMat.shoppingCartRemove(item);
-                                _update();
-                                if (widget.iMat.getShoppingCart().items.isEmpty) {
-                                  Navigator.of(context).pop();
-                                }
-                              },
-                              style: TextButton.styleFrom(
-                                foregroundColor: Colors.white,
-                                backgroundColor: Colors.red,
-                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                                minimumSize: const Size(0, 32),
-                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              ),
-                              child: const Text('Ta bort', style: TextStyle(fontSize: 12)),
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                    )),
-                  ];
-                }).toList(),
+                      ];
+                    }).toList(),
               ),
             ),
             // Total price in lower right
@@ -326,7 +429,10 @@ class _ModifyCartDialogState extends State<_ModifyCartDialog> {
                   padding: const EdgeInsets.only(top: 16.0, right: 4.0),
                   child: Text(
                     'Total: ${total.toStringAsFixed(2)} kr',
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ],

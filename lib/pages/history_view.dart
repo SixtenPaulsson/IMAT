@@ -53,7 +53,7 @@ class _HistoryViewState extends State<HistoryView> {
                   // When a user taps on an item the function _selectOrder is called
                   // The Material widget is need to make hovering pliancy effects visible
                   child: Material(
-                    color: const Color.fromARGB(255, 154, 172, 134),
+                    color: AppTheme.colorScheme.secondaryContainer,
                     child: _ordersList(context, orders, _selectOrder),
                   ),
                 ),
@@ -71,7 +71,7 @@ class _HistoryViewState extends State<HistoryView> {
 
   Widget _header2(BuildContext context) {
     return Container(
-      color: Colors.lightBlue,
+      color: AppTheme.colorScheme.primary,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Row(
         children: [
@@ -221,8 +221,8 @@ void _showAccount(BuildContext context) {
 }
 
 void _showMainview(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const MainView()),
-    );
-  }
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => const MainView()),
+  );
+}

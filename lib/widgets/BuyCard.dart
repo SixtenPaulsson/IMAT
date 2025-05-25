@@ -1,3 +1,4 @@
+import 'package:api_test/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:api_test/model/imat/product.dart';
 import 'package:api_test/model/imat/shopping_item.dart';
@@ -69,13 +70,10 @@ class _BuyCardState extends State<BuyCard> {
                     setState(() {});
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(
-                      255,
-                      206,
-                      144,
-                      50,
-                    ), // Set the button color
-                    foregroundColor: Colors.black, // Set the text color
+                    backgroundColor: AppTheme.colorScheme.tertiary,
+                    // Set the button color
+                    foregroundColor:
+                        AppTheme.colorScheme.onPrimary, // Set the text color
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8), // Rounded corners
                     ),
