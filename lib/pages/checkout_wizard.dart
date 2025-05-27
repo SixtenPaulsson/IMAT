@@ -1,3 +1,5 @@
+import 'package:api_test/model/imat/credit_card.dart';
+import 'package:api_test/model/imat/customer.dart';
 import 'package:api_test/model/imat_data_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,20 +15,21 @@ class CheckoutWizard extends StatefulWidget {
 class _CheckoutWizardState extends State<CheckoutWizard> {
   int _step = 0;
   // Personal info controllers
-  final _firstNameController = TextEditingController();
-  final _lastNameController = TextEditingController();
-  final _phoneController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _addressController = TextEditingController();
-  final _postCodeController = TextEditingController();
+  late final TextEditingController _firstNameController;
+  late final TextEditingController _lastNameController;
+  late final TextEditingController _phoneController;
+  late final TextEditingController _emailController;
+  late final TextEditingController _addressController;
+  late final TextEditingController _postCodeController;
 
   // Payment controllers
-  final _cardNumberController = TextEditingController();
-  final _cardNameController = TextEditingController();
-  final _monthController = TextEditingController();
-  final _yearController = TextEditingController();
-  final _cvvController = TextEditingController();
+  late final TextEditingController _cardNumberController;
+  late final TextEditingController _cardNameController;
+  late final TextEditingController _monthController;
+  late final TextEditingController _yearController;
+  late final TextEditingController _cvvController;
 
+  late final ImatDataHandler _imatDataHandler;
   // Delivery selection
   int? _selectedDelivery;
   final List<Map<String, String>> _deliveryOptions = [
@@ -43,6 +46,23 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
   @override
   void initState() {
     super.initState();
+    _imatDataHandler = Provider.of<ImatDataHandler>(context, listen: false);
+    Customer customer = _imatDataHandler.getCustomer();
+
+    _firstNameController = TextEditingController(text: customer.firstName);
+    _lastNameController = TextEditingController(text: customer.lastName);
+    _phoneController = TextEditingController(text: customer.mobilePhoneNumber);
+    _emailController = TextEditingController(text: customer.email);
+    _addressController = TextEditingController(text: customer.address);
+    _postCodeController = TextEditingController(text: customer.postCode);
+
+    CreditCard card = _imatDataHandler.getCreditCard();
+
+    _cardNameController = TextEditingController(text: card.cardType);
+    _cardNumberController = TextEditingController(text: card.holdersName);
+    _monthController = TextEditingController(text: '${card.validMonth}');
+    _yearController = TextEditingController(text: '${card.validYear}');
+    _cvvController = TextEditingController(text: '${card.verificationCode}');
     _loadSavedData();
   }
 
@@ -71,6 +91,18 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
 
   Future<void> _savePersonalInfo() async {
     final prefs = await SharedPreferences.getInstance();
+    Customer customer = _imatDataHandler.getCustomer();
+
+    customer.firstName = _firstNameController.text;
+    customer.lastName = _lastNameController.text;
+    customer.mobilePhoneNumber = _phoneController.text;
+    customer.email = _emailController.text;
+    customer.address = _addressController.text;
+    customer.postCode = _postCodeController.text;
+    customer.postAddress = _addressController.text;
+
+    // This is needed to trigger updates to the server
+    _imatDataHandler.setCustomer(customer);
     await prefs.setString('personal_first_name', _firstNameController.text);
     await prefs.setString('personal_last_name', _lastNameController.text);
     await prefs.setString('personal_phone', _phoneController.text);
@@ -81,6 +113,16 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
 
   Future<void> _savePaymentMethod() async {
     final prefs = await SharedPreferences.getInstance();
+    CreditCard card = _imatDataHandler.getCreditCard();
+
+    card.cardType = _cardNameController.text;
+    card.holdersName = _cardNumberController.text;
+    card.validMonth = int.parse(_monthController.text);
+    card.validYear = int.parse(_yearController.text);
+    card.cardNumber = _cvvController.text;
+
+    // This needed to trigger update to the server
+    _imatDataHandler.setCreditCard(card);
     await prefs.setString('payment_card_number', _cardNumberController.text);
     await prefs.setString('payment_card_name', _cardNameController.text);
     await prefs.setString('payment_card_month', _monthController.text);
@@ -146,13 +188,17 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
                 ),
               ),
               const SizedBox(width: 8),
-              Text(
-                steps[i],
-                style: TextStyle(
-                  fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
-                  color: isActive ? Colors.blue : Colors.black,
+              InkWell(
+                onTap: () => {_step = i, setState(() => {})},
+                child: Text(
+                  steps[i],
+                  style: TextStyle(
+                    fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
+                    color: isActive ? Colors.blue : Colors.black,
+                  ),
                 ),
               ),
+
               if (i < steps.length - 1)
                 Expanded(
                   child: Container(
@@ -228,8 +274,7 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
           'Personlig information',
           style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: 16),
-        _buildInfoCards(
+        /* _buildInfoCards(
           title: 'Saved Personal Information',
           data: _savedPersonalInfo,
           onSelectCallback: () {
@@ -242,19 +287,46 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
               _postCodeController.text = _savedPersonalInfo['Postnummer'] ?? '';
             }
           },
+
           onRemoveCallback: () {
             setState(() => _savedPersonalInfo.clear());
           },
+        
+        ),
+        */
+        const SizedBox(height: 16),
+        TextField(
+          controller: _firstNameController,
+          decoration: const InputDecoration(labelText: 'Förnamn'),
+          onChanged: (value) => {_savePersonalInfo()},
+        ),
+        TextField(
+          controller: _lastNameController,
+          decoration: const InputDecoration(labelText: 'Efternamn'),
+          onChanged: (value) => {_savePersonalInfo()},
+        ),
+        TextField(
+          controller: _phoneController,
+          decoration: const InputDecoration(labelText: 'Telefonnummer'),
+          onChanged: (value) => {_savePersonalInfo()},
+        ),
+        TextField(
+          controller: _emailController,
+          decoration: const InputDecoration(labelText: 'E-post'),
+          onChanged: (value) => {_savePersonalInfo()},
+        ),
+        TextField(
+          controller: _addressController,
+          decoration: const InputDecoration(labelText: 'Adress'),
+          onChanged: (value) => {_savePersonalInfo()},
+        ),
+        TextField(
+          controller: _postCodeController,
+          decoration: const InputDecoration(labelText: 'Postnummer'),
+          onChanged: (value) => {_savePersonalInfo()},
         ),
         const SizedBox(height: 16),
-        TextField(controller: _firstNameController, decoration: const InputDecoration(labelText: 'Förnamn')),
-        TextField(controller: _lastNameController, decoration: const InputDecoration(labelText: 'Efternamn')),
-        TextField(controller: _phoneController, decoration: const InputDecoration(labelText: 'Telefonnummer')),
-        TextField(controller: _emailController, decoration: const InputDecoration(labelText: 'E-post')),
-        TextField(controller: _addressController, decoration: const InputDecoration(labelText: 'Adress')),
-        TextField(controller: _postCodeController, decoration: const InputDecoration(labelText: 'Postnummer')),
-        const SizedBox(height: 16),
-        ElevatedButton(
+        /*ElevatedButton(
           onPressed: () async {
             setState(() {
               _savedPersonalInfo = {
@@ -267,12 +339,13 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
               };
             });
             await _savePersonalInfo();
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Personlig information sparad!')),
-            );
+            //ScaffoldMessenger.of(context).showSnackBar(
+            //const SnackBar(content: Text('Personlig information sparad!')),
+            //);
           },
           child: const Text('Spara'),
         ),
+        */
       ],
     );
   }
@@ -285,7 +358,7 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
           'Betalningsmetod',
           style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: 16),
+        /*
         _buildInfoCards(
           title: 'Saved Payment Method',
           data: _savedPaymentMethod,
@@ -293,7 +366,7 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
             if (_savedPaymentMethod.isNotEmpty) {
               _cardNumberController.text =
                   _savedPaymentMethod['Kortnummer'] ?? '';
-              _cardNameController.text =
+              _cardNameContsroller.text =
                   _savedPaymentMethod['Namn på kortet'] ?? '';
               _monthController.text =
                   _savedPaymentMethod['Giltig månad (MM)'] ?? '';
@@ -306,32 +379,35 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
             setState(() => _savedPaymentMethod.clear());
           },
         ),
-        const Text(
-          'Betalningsmetod',
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-        ),
+        */
         const SizedBox(height: 16),
         TextField(
           controller: _cardNumberController,
           decoration: const InputDecoration(labelText: 'Kortnummer'),
+          onChanged: (value) => {_savePaymentMethod()},
         ),
         TextField(
           controller: _cardNameController,
           decoration: const InputDecoration(labelText: 'Namn på kortet'),
+          onChanged: (value) => {_savePaymentMethod()},
         ),
         TextField(
           controller: _monthController,
           decoration: const InputDecoration(labelText: 'Giltig månad (MM)'),
+          onChanged: (value) => {_savePaymentMethod()},
         ),
         TextField(
           controller: _yearController,
           decoration: const InputDecoration(labelText: 'Giltigt år (YY)'),
+          onChanged: (value) => {_savePaymentMethod()},
         ),
         TextField(
           controller: _cvvController,
           decoration: const InputDecoration(labelText: 'CVV-kod'),
+          onChanged: (value) => {_savePaymentMethod()},
         ),
-        const SizedBox(height: 16),
+
+        /*
         ElevatedButton(
           onPressed: () async {
             setState(() {
@@ -344,12 +420,12 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
               };
             });
             await _savePaymentMethod();
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Betalningsmetod sparad!')),
-            );
+            //ScaffoldMessenger.of(context).showSnackBar(
+            //  const SnackBar(content: Text('Betalningsmetod sparad!')),
+            //);
           },
           child: const Text('Spara'),
-        ),
+          */
       ],
     );
   }
