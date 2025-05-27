@@ -42,7 +42,7 @@ class _HistoryViewState extends State<HistoryView> {
       body: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _header2(context),
+          _header(context),
           Expanded(
             child: Row(
               children: [
@@ -53,13 +53,20 @@ class _HistoryViewState extends State<HistoryView> {
                   // When a user taps on an item the function _selectOrder is called
                   // The Material widget is need to make hovering pliancy effects visible
                   child: Material(
-                    color: AppTheme.colorScheme.secondaryContainer,
+                    color: AppTheme.colorScheme.tertiaryContainer,
                     child: _ordersList(context, orders, _selectOrder),
                   ),
                 ),
                 // Creates the view to the right showing the
                 // currently selected order.
-                Expanded(flex: 60, child: _orderDetails(_selectedOrder, iMat)),
+                Expanded(
+                  flex: 60,
+                  child: Container(
+                    color: AppTheme.colorScheme.secondaryContainer,
+                    child: _orderDetails(_selectedOrder, iMat),
+                  ),
+                ),
+
                 Expanded(flex: 25, child: ShoppingCart(iMat: iMat)),
               ],
             ),
@@ -69,7 +76,7 @@ class _HistoryViewState extends State<HistoryView> {
     );
   }
 
-  Widget _header2(BuildContext context) {
+  Widget _header(BuildContext context) {
     return Container(
       color: AppTheme.colorScheme.primary,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -110,26 +117,6 @@ class _HistoryViewState extends State<HistoryView> {
     );
   }
 
-  Widget _header(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('iMat'),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('Tillbaka'),
-        ),
-      ],
-    );
-  }
-
   Widget _ordersList(BuildContext context, List<Order> orders, Function onTap) {
     return ListView(
       children: [for (final order in orders.reversed) _orderInfo(order, onTap)],
@@ -139,7 +126,7 @@ class _HistoryViewState extends State<HistoryView> {
   Widget _orderInfo(Order order, Function onTap) {
     return ListTile(
       onTap: () => onTap(order),
-      title: Text('Order ${order.orderNumber}, ${_formatDateTime(order.date)}'),
+      title: Text(_formatDateTime(order.date)),
     );
   }
 
@@ -195,7 +182,7 @@ class _HistoryViewState extends State<HistoryView> {
       return ListView(
         children: [
           Text(
-            'Order ${order.orderNumber}',
+            _formatDateTime(order.date),
             style: Theme.of(context).textTheme.headlineSmall,
           ),
           SizedBox(height: AppTheme.paddingSmall),
