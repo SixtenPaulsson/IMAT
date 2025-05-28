@@ -16,9 +16,7 @@ class ProductTile extends StatelessWidget {
 
     return Card(
       elevation: 5,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -46,38 +44,14 @@ class ProductTile extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               product.name,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
             const SizedBox(height: 4),
-            ElevatedButton(
-              onPressed: () {
-                //iMat.showProductDetails(product);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              child: const Text('Mer info', 
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.black,
-                  )
-                ),
-            ),
-            const SizedBox(height: 4),
             Text(
               '${product.price.toStringAsFixed(2)} kr',
-              style: const TextStyle(
-                fontSize: 14,
-                color: Colors.black,
-              ),
+              style: const TextStyle(fontSize: 14, color: Colors.black),
             ),
             const Spacer(),
             BuyCard(product: product),
