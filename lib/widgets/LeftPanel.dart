@@ -49,6 +49,16 @@ class _LeftPanelState extends State<LeftPanel> {
               widget.iMat.selectAllProducts();
             },
           ),
+          SizedBox(
+            height: AppTheme.paddingSmall,
+          ), // Extra spacing after Köp igen
+          _buildCard(
+            title: 'Visa allting',
+            onPressed: () {
+              setState(() => selectedTitle = 'Visa allting');
+              widget.iMat.selectAllProducts();
+            },
+          ),
           SizedBox(height: AppTheme.paddingSmall),
           _buildCard(
             title: 'Urval',
