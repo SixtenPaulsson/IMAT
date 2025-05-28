@@ -53,7 +53,7 @@ class _HistoryViewState extends State<HistoryView> {
                   // When a user taps on an item the function _selectOrder is called
                   // The Material widget is need to make hovering pliancy effects visible
                   child: Material(
-                    color: AppTheme.colorScheme.tertiaryContainer,
+                    color: AppTheme.colorScheme.secondaryContainer,
                     child: _ordersList(context, orders, _selectOrder),
                   ),
                 ),
@@ -62,7 +62,7 @@ class _HistoryViewState extends State<HistoryView> {
                 Expanded(
                   flex: 60,
                   child: Container(
-                    color: AppTheme.colorScheme.secondaryContainer,
+                    color: Colors.white,
                     child: _orderDetails(_selectedOrder, iMat),
                   ),
                 ),
@@ -100,6 +100,16 @@ class _HistoryViewState extends State<HistoryView> {
               textStyle: const TextStyle(fontSize: 23),
             ),
             child: const Text('Handla'),
+          ),
+          const SizedBox(width: 10),
+          ElevatedButton(
+            onPressed: () => _showHistory(context),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
+              textStyle: const TextStyle(fontSize: 23),
+            ),
+            child: const Text('Köphistorik'),
           ),
           const SizedBox(width: 10),
           ElevatedButton(
@@ -145,14 +155,41 @@ class _HistoryViewState extends State<HistoryView> {
             ),
             Expanded(child: Text('${item.product.name}, ${item.amount}')),
             Expanded(
-              child: IconButton(
-                icon: Icon(Icons.add),
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                    AppTheme.colorScheme.tertiary,
+                  ),
+                ),
                 onPressed: () {
                   setState(() {});
-                  imat.shoppingCartUpdate(item, delta: 1);
+
+                  imat.shoppingCartUpdate(
+                    ShoppingItem(item.product, amount: 1),
+                    delta: 1,
+                  );
                 },
+                child: Icon(Icons.add, color: Colors.white),
               ),
             ),
+            /*Expanded(
+              child: Container(
+                color: AppTheme.colorScheme.onPrimary,
+              
+
+                child: IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: () {
+                    setState(() {});
+
+                    imat.shoppingCartUpdate(
+                      ShoppingItem(item.product, amount: 1),
+                      delta: 1,
+                    );
+                  },
+                ),
+              ),
+            ),*/
           ],
         ),
       ),
@@ -200,10 +237,10 @@ class _HistoryViewState extends State<HistoryView> {
   }
 }
 
-void _showAccount(BuildContext context) {
+void _showHistory(BuildContext context) {
   Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => const AccountView()),
+    MaterialPageRoute(builder: (context) => const HistoryView()),
   );
 }
 
@@ -211,5 +248,12 @@ void _showMainview(BuildContext context) {
   Navigator.push(
     context,
     MaterialPageRoute(builder: (context) => const MainView()),
+  );
+}
+
+void _showAccount(BuildContext context) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => const AccountView()),
   );
 }

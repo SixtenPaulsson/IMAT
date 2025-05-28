@@ -63,7 +63,16 @@ class _AccountViewState extends State<AccountView> {
               child: SizedBox(),
             ),
           ),
-          const SizedBox(width: 20),
+          ElevatedButton(
+            onPressed: () => _showMainview(context),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
+              textStyle: const TextStyle(fontSize: 23),
+            ),
+            child: const Text('Handla'),
+          ),
+          const SizedBox(width: 10),
           ElevatedButton(
             onPressed: () => _showHistory(context),
             style: ElevatedButton.styleFrom(
@@ -75,13 +84,13 @@ class _AccountViewState extends State<AccountView> {
           ),
           const SizedBox(width: 10),
           ElevatedButton(
-            onPressed: () => _showMainview(context),
+            onPressed: () => _showAccount(context),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white,
               foregroundColor: Colors.black,
               textStyle: const TextStyle(fontSize: 23),
             ),
-            child: const Text('Handla'),
+            child: const Text('Användare'),
           ),
           const SizedBox(width: 20),
         ],
@@ -148,31 +157,36 @@ class _AccountViewState extends State<AccountView> {
         Expanded(
           child: Column(
             children: [
-              Text("Gå till användare"),
-              ElevatedButton(
-                onPressed:
-                    () => {
-                      setState(() {
-                        _step = 1;
-                      }),
-                    },
-                child: Text("Gå till användare"),
+              Text(
+                "Här kan du ändra din användar-information, tryck på knapparna nedanför för att redigera eller på handla för att gå tillbaka",
               ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: Column(
-            children: [
-              Text("Gå till användare"),
-              ElevatedButton(
-                onPressed:
-                    () => {
-                      setState(() {
-                        _step = 2;
-                      }),
-                    },
-                child: Text("Gå till kort"),
+              //Text("Gå till användare"),
+              SizedBox(
+                width: 200,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed:
+                      () => {
+                        setState(() {
+                          _step = 1;
+                        }),
+                      },
+                  child: Text("Gå till användare"),
+                ),
+              ),
+              SizedBox(height: AppTheme.paddingMedium),
+              SizedBox(
+                width: 200,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed:
+                      () => {
+                        setState(() {
+                          _step = 2;
+                        }),
+                      },
+                  child: Text("Gå till kort"),
+                ),
               ),
             ],
           ),
@@ -192,6 +206,13 @@ class _AccountViewState extends State<AccountView> {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const MainView()),
+    );
+  }
+
+  void _showAccount(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const AccountView()),
     );
   }
 }

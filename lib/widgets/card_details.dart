@@ -40,7 +40,7 @@ class _CardDetailsState extends State<CardDetails> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      spacing: AppTheme.paddingMedium,
+      spacing: AppTheme.paddingTiny,
       children: [
         Text(
           'Kortdetaljer:',

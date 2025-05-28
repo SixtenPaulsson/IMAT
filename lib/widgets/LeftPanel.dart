@@ -31,6 +31,7 @@ class _LeftPanelState extends State<LeftPanel> {
             },
             isFirstButton: true,
           ),
+<<<<<<< Updated upstream
           SizedBox(
             height: AppTheme.paddingSmall,
           ), // Extra spacing after Köp igen
@@ -58,12 +59,24 @@ class _LeftPanelState extends State<LeftPanel> {
               widget.iMat.selectAllProducts();
             },
           ),
+=======
+>>>>>>> Stashed changes
           SizedBox(height: AppTheme.paddingSmall),
           _buildCard(
             title: 'Favoriter',
             onPressed: () {
               setState(() => selectedTitle = 'Favoriter');
               widget.iMat.selectFavorites();
+            },
+          ),
+          SizedBox(
+            height: AppTheme.paddingLarge,
+          ), // Extra spacing after Köp igen
+          _buildCard(
+            title: 'Visa allting',
+            onPressed: () {
+              setState(() => selectedTitle = 'Visa allting');
+              widget.iMat.selectAllProducts();
             },
           ),
           SizedBox(height: AppTheme.paddingSmall),
@@ -83,6 +96,24 @@ class _LeftPanelState extends State<LeftPanel> {
               }
             },
           ),
+          SizedBox(height: AppTheme.paddingSmall),
+          _buildCard(
+            title: 'Grill',
+            onPressed: () {
+              setState(() => selectedTitle = 'Grill');
+              var products = widget.iMat.products;
+              if (products.isNotEmpty) {
+                widget.iMat.selectSelection([
+                  products[3],
+                  products[14],
+                  products[15],
+                  products[16],
+                  products[12],
+                ], 'Grill');
+              }
+            },
+          ),
+
           SizedBox(height: AppTheme.paddingSmall),
           _buildCard(
             title: 'Grönsaker',

@@ -45,7 +45,7 @@ class _CustomerDetailsState extends State<CustomerDetails> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      spacing: AppTheme.paddingSmall,
+      spacing: AppTheme.paddingTiny,
       children: [
         Text(
           'Använderuppgifter:',
