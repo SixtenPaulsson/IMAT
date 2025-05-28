@@ -19,7 +19,7 @@ class _LeftPanelState extends State<LeftPanel> {
   Widget build(BuildContext context) {
     return Container(
       width: 300,
-      color: const Color.fromARGB(255, 127, 187, 59),
+      color: AppTheme.colorScheme.secondaryContainer,
       child: Column(
         children: [
           SizedBox(height: AppTheme.paddingSmall),
@@ -31,39 +31,22 @@ class _LeftPanelState extends State<LeftPanel> {
             },
             isFirstButton: true,
           ),
-          SizedBox(
-            height: AppTheme.paddingSmall,
-          ), // Extra spacing after Köp igen
-          _buildCard(
-            title: 'Grill',
-            onPressed: () {
-              setState(() => selectedTitle = 'Grill');
-              var products = widget.iMat.products;
-              if (products != null && products.isNotEmpty) {
-                widget.iMat.selectSelection([
-                  products[4],
-                  products[12],
-                  products[14],
-                  products[15],
-                  products[16],
-                ], 'Grill');
-              }
-            },
-          ),
-          SizedBox(height: AppTheme.paddingSmall),
-          _buildCard(
-            title: 'Visa allting',
-            onPressed: () {
-              setState(() => selectedTitle = 'Visa allting');
-              widget.iMat.selectAllProducts();
-            },
-          ),
           SizedBox(height: AppTheme.paddingSmall),
           _buildCard(
             title: 'Favoriter',
             onPressed: () {
               setState(() => selectedTitle = 'Favoriter');
               widget.iMat.selectFavorites();
+            },
+          ),
+          SizedBox(
+            height: AppTheme.paddingLarge,
+          ), // Extra spacing after Köp igen
+          _buildCard(
+            title: 'Visa allting',
+            onPressed: () {
+              setState(() => selectedTitle = 'Visa allting');
+              widget.iMat.selectAllProducts();
             },
           ),
           SizedBox(height: AppTheme.paddingSmall),
@@ -83,6 +66,24 @@ class _LeftPanelState extends State<LeftPanel> {
               }
             },
           ),
+          SizedBox(height: AppTheme.paddingSmall),
+          _buildCard(
+            title: 'Grill',
+            onPressed: () {
+              setState(() => selectedTitle = 'Grill');
+              var products = widget.iMat.products;
+              if (products.isNotEmpty) {
+                widget.iMat.selectSelection([
+                  products[3],
+                  products[14],
+                  products[15],
+                  products[16],
+                  products[12],
+                ], 'Grill');
+              }
+            },
+          ),
+
           SizedBox(height: AppTheme.paddingSmall),
           _buildCard(
             title: 'Grönsaker',

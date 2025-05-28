@@ -7,7 +7,8 @@ import 'package:provider/provider.dart';
 // Simple widget to edit card information.
 // It's probably better to use Form
 class CardDetails extends StatefulWidget {
-  const CardDetails({super.key});
+  final VoidCallback voidCallback;
+  const CardDetails({super.key, required this.voidCallback});
 
   @override
   State<CardDetails> createState() => _CardDetailsState();
@@ -39,8 +40,12 @@ class _CardDetailsState extends State<CardDetails> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      spacing: AppTheme.paddingMedium,
+      spacing: AppTheme.paddingTiny,
       children: [
+        Text(
+          'Kortdetaljer:',
+          style: TextStyle(fontSize: AppTheme.paddingLarge),
+        ),
         TextField(
           controller: _typeController,
           decoration: InputDecoration(labelText: 'Kortnummer'),
@@ -61,9 +66,15 @@ class _CardDetailsState extends State<CardDetails> {
           controller: _codeController,
           decoration: InputDecoration(labelText: 'CVV-kod'),
         ),
+        Spacer(),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
+            ElevatedButton(
+              onPressed: () => {widget.voidCallback()},
+              child: Text('Tillbaka'),
+            ),
+            Spacer(),
             ElevatedButton(onPressed: _saveCard, child: Text('Spara')),
           ],
         ),

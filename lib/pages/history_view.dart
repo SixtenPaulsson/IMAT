@@ -42,7 +42,7 @@ class _HistoryViewState extends State<HistoryView> {
       body: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _header2(context),
+          _header(context),
           Expanded(
             child: Row(
               children: [
@@ -59,7 +59,14 @@ class _HistoryViewState extends State<HistoryView> {
                 ),
                 // Creates the view to the right showing the
                 // currently selected order.
-                Expanded(flex: 60, child: _orderDetails(_selectedOrder, iMat)),
+                Expanded(
+                  flex: 60,
+                  child: Container(
+                    color: Colors.white,
+                    child: _orderDetails(_selectedOrder, iMat),
+                  ),
+                ),
+
                 Expanded(flex: 25, child: ShoppingCart(iMat: iMat)),
               ],
             ),
@@ -69,7 +76,7 @@ class _HistoryViewState extends State<HistoryView> {
     );
   }
 
-  Widget _header2(BuildContext context) {
+  Widget _header(BuildContext context) {
     return Container(
       color: AppTheme.colorScheme.primary,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -96,6 +103,16 @@ class _HistoryViewState extends State<HistoryView> {
           ),
           const SizedBox(width: 10),
           ElevatedButton(
+            onPressed: () => _showHistory(context),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
+              textStyle: const TextStyle(fontSize: 23),
+            ),
+            child: const Text('Köphistorik'),
+          ),
+          const SizedBox(width: 10),
+          ElevatedButton(
             onPressed: () => _showAccount(context),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white,
@@ -110,26 +127,6 @@ class _HistoryViewState extends State<HistoryView> {
     );
   }
 
-  Widget _header(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('iMat'),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('Tillbaka'),
-        ),
-      ],
-    );
-  }
-
   Widget _ordersList(BuildContext context, List<Order> orders, Function onTap) {
     return ListView(
       children: [for (final order in orders.reversed) _orderInfo(order, onTap)],
@@ -139,7 +136,7 @@ class _HistoryViewState extends State<HistoryView> {
   Widget _orderInfo(Order order, Function onTap) {
     return ListTile(
       onTap: () => onTap(order),
-      title: Text('Order ${order.orderNumber}, ${_formatDateTime(order.date)}'),
+      title: Text(_formatDateTime(order.date)),
     );
   }
 
@@ -158,14 +155,41 @@ class _HistoryViewState extends State<HistoryView> {
             ),
             Expanded(child: Text('${item.product.name}, ${item.amount}')),
             Expanded(
-              child: IconButton(
-                icon: Icon(Icons.add),
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                    AppTheme.colorScheme.tertiary,
+                  ),
+                ),
                 onPressed: () {
                   setState(() {});
-                  imat.shoppingCartUpdate(item, delta: 1);
+
+                  imat.shoppingCartUpdate(
+                    ShoppingItem(item.product, amount: 1),
+                    delta: 1,
+                  );
                 },
+                child: Icon(Icons.add, color: Colors.white),
               ),
             ),
+            /*Expanded(
+              child: Container(
+                color: AppTheme.colorScheme.onPrimary,
+              
+
+                child: IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: () {
+                    setState(() {});
+
+                    imat.shoppingCartUpdate(
+                      ShoppingItem(item.product, amount: 1),
+                      delta: 1,
+                    );
+                  },
+                ),
+              ),
+            ),*/
           ],
         ),
       ),
@@ -195,7 +219,7 @@ class _HistoryViewState extends State<HistoryView> {
       return ListView(
         children: [
           Text(
-            'Order ${order.orderNumber}',
+            _formatDateTime(order.date),
             style: Theme.of(context).textTheme.headlineSmall,
           ),
           SizedBox(height: AppTheme.paddingSmall),
@@ -213,10 +237,10 @@ class _HistoryViewState extends State<HistoryView> {
   }
 }
 
-void _showAccount(BuildContext context) {
+void _showHistory(BuildContext context) {
   Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => const AccountView()),
+    MaterialPageRoute(builder: (context) => const HistoryView()),
   );
 }
 
@@ -224,5 +248,12 @@ void _showMainview(BuildContext context) {
   Navigator.push(
     context,
     MaterialPageRoute(builder: (context) => const MainView()),
+  );
+}
+
+void _showAccount(BuildContext context) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => const AccountView()),
   );
 }

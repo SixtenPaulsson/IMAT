@@ -6,20 +6,46 @@ import 'package:api_test/widgets/customer_details.dart';
 import 'package:api_test/widgets/logo.dart';
 import 'package:flutter/material.dart';
 
-class AccountView extends StatelessWidget {
+class AccountView extends StatefulWidget {
   const AccountView({super.key});
 
+  State<AccountView> createState() => _AccountViewState();
+}
+
+class _AccountViewState extends State<AccountView> {
+  int _step = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          _header(context),
-          SizedBox(height: AppTheme.paddingSmall),
-          _customerDetails(),
-        ],
-      ),
+      body: Column(children: [_header(context), _customerDetails()]),
     );
+  }
+
+  void _goBack() {
+    setState(() {
+      _step = 0;
+    });
+  }
+
+  Widget _buildStep() {
+    switch (_step) {
+      case 0:
+        return _mains();
+      case 1:
+        return CustomerDetails(
+          action: () {
+            _goBack();
+          },
+        );
+      case 2:
+        return CardDetails(
+          voidCallback: () {
+            _goBack();
+          },
+        );
+      default:
+        return const SizedBox();
+    }
   }
 
   Widget _header(BuildContext context) {
@@ -37,7 +63,16 @@ class AccountView extends StatelessWidget {
               child: SizedBox(),
             ),
           ),
-          const SizedBox(width: 20),
+          ElevatedButton(
+            onPressed: () => _showMainview(context),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
+              textStyle: const TextStyle(fontSize: 23),
+            ),
+            child: const Text('Handla'),
+          ),
+          const SizedBox(width: 10),
           ElevatedButton(
             onPressed: () => _showHistory(context),
             style: ElevatedButton.styleFrom(
@@ -49,13 +84,13 @@ class AccountView extends StatelessWidget {
           ),
           const SizedBox(width: 10),
           ElevatedButton(
-            onPressed: () => _showMainview(context),
+            onPressed: () => _showAccount(context),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white,
               foregroundColor: Colors.black,
               textStyle: const TextStyle(fontSize: 23),
             ),
-            child: const Text('Handla'),
+            child: const Text('Användare'),
           ),
           const SizedBox(width: 20),
         ],
@@ -64,60 +99,99 @@ class AccountView extends StatelessWidget {
   }
 
   Widget _customerDetails() {
-    return Padding(
-      padding: EdgeInsets.all(AppTheme.paddingMedium),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Column(
+    return Expanded(
+      child: Container(
+        color: AppTheme.colorScheme.secondaryContainer,
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: 300,
+            right: 300,
+            top: AppTheme.paddingMedium,
+            bottom: AppTheme.paddingMedium,
+          ),
+
+          child: Expanded(
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Användaruppgifter:',
-                  style: TextStyle(fontSize: AppTheme.paddingLarge),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    color: AppTheme.colorScheme.inversePrimary,
-                    border: Border.all(
-                      color: AppTheme.colorScheme.primary,
-                      width: 2,
-                    ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Ändra dina Uppgifter här:',
+                        style: TextStyle(fontSize: AppTheme.paddingLarge),
+                      ),
+
+                      Expanded(
+                        child: Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4),
+                            color: AppTheme.colorScheme.onPrimary,
+                            border: Border.all(
+                              color: AppTheme.colorScheme.primary,
+                              width: 2,
+                            ),
+                          ),
+                          padding: EdgeInsets.all(AppTheme.paddingMedium),
+                          child: Expanded(child: _buildStep()),
+                        ),
+                      ),
+                    ],
                   ),
-                  padding: EdgeInsets.all(AppTheme.paddingMedium),
-                  child: CustomerDetails(),
                 ),
+                SizedBox(width: 16),
               ],
             ),
           ),
-          SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Kortdetaljer:',
-                  style: TextStyle(fontSize: AppTheme.paddingLarge),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    color: AppTheme.colorScheme.inversePrimary,
-                    border: Border.all(
-                      color: AppTheme.colorScheme.primary,
-                      width: 2,
-                    ),
-                  ),
-                  padding: EdgeInsets.all(AppTheme.paddingMedium),
-                  child: CardDetails(),
-                ),
-              ],
-            ),
-          ),
-        ],
+        ),
       ),
+    );
+  }
+
+  Widget _mains() {
+    return Row(
+      spacing: AppTheme.paddingMedium,
+      children: [
+        Expanded(
+          child: Column(
+            children: [
+              Text(
+                "Här kan du ändra din användar-information, tryck på knapparna nedanför för att redigera eller på handla för att gå tillbaka",
+              ),
+              //Text("Gå till användare"),
+              SizedBox(
+                width: 200,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed:
+                      () => {
+                        setState(() {
+                          _step = 1;
+                        }),
+                      },
+                  child: Text("Gå till användare"),
+                ),
+              ),
+              SizedBox(height: AppTheme.paddingMedium),
+              SizedBox(
+                width: 200,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed:
+                      () => {
+                        setState(() {
+                          _step = 2;
+                        }),
+                      },
+                  child: Text("Gå till kort"),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -132,6 +206,13 @@ class AccountView extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const MainView()),
+    );
+  }
+
+  void _showAccount(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const AccountView()),
     );
   }
 }

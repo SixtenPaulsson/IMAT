@@ -191,10 +191,30 @@ class ShoppingCart extends StatelessWidget {
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const CheckoutWizard(),
-                    ),
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Dialog(
+                        insetPadding: EdgeInsets.only(
+                          left: 200,
+                          right: 200,
+                          top: 20,
+                          bottom: 20,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        child: SizedBox(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                              16,
+                            ), // Adjust radius as needed
+                            child:
+                                CheckoutWizard(), // The widget from checkout_wizard.dart
+                          ),
+                        ),
+                      );
+                    },
                   );
                 },
                 style: ElevatedButton.styleFrom(
@@ -220,6 +240,7 @@ class ShoppingCart extends StatelessWidget {
 
 class _ModifyCartDialog extends StatefulWidget {
   final ImatDataHandler iMat;
+
   const _ModifyCartDialog({required this.iMat});
 
   @override
