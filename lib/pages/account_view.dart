@@ -158,34 +158,41 @@ class _AccountViewState extends State<AccountView> {
           child: Column(
             children: [
               Text(
-                "Här kan du ändra din användar-information, tryck på knapparna nedanför för att redigera eller på handla för att gå tillbaka",
+                "Här kan du ändra din användar-information, tryck på knapparna nedanför för att redigera eller på handla för att gå tillbaka.",
               ),
+              SizedBox(height: AppTheme.paddingLarge),
               //Text("Gå till användare"),
-              SizedBox(
-                width: 200,
-                height: 50,
-                child: ElevatedButton(
-                  onPressed:
-                      () => {
-                        setState(() {
-                          _step = 1;
-                        }),
-                      },
-                  child: Text("Gå till användare"),
-                ),
-              ),
-              SizedBox(height: AppTheme.paddingMedium),
-              SizedBox(
-                width: 200,
-                height: 50,
-                child: ElevatedButton(
-                  onPressed:
-                      () => {
-                        setState(() {
-                          _step = 2;
-                        }),
-                      },
-                  child: Text("Gå till kort"),
+              Container(
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 300,
+                      height: 100,
+                      child: ElevatedButton(
+                        onPressed:
+                            () => {
+                              setState(() {
+                                _step = 1;
+                              }),
+                            },
+                        child: Text("Redigera användarinformation"),
+                      ),
+                    ),
+                    SizedBox(height: AppTheme.paddingMedium),
+                    SizedBox(
+                      width: 300,
+                      height: 100,
+                      child: ElevatedButton(
+                        onPressed:
+                            () => {
+                              setState(() {
+                                _step = 2;
+                              }),
+                            },
+                        child: Text("Redigera betalningsinformation"),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

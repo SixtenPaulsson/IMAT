@@ -95,5 +95,8 @@ class _CardDetailsState extends State<CardDetails> {
 
     // This needed to trigger update to the server
     iMat.setCreditCard(card);
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Information sparad!')));
   }
 }

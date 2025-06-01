@@ -32,12 +32,8 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
   late final ImatDataHandler _imatDataHandler;
   // Delivery selection
   int? _selectedDelivery;
-  final List<Map<String, String>> _deliveryOptions = [
-    {'date': '2025-05-16', 'time': '09:00-11:00'},
-    {'date': '2025-05-16', 'time': '13:00-15:00'},
-    {'date': '2025-05-17', 'time': '09:00-11:00'},
-    {'date': '2025-05-17', 'time': '13:00-15:00'},
-  ];
+  final List<String> _timeSlots = ['09:00-11:00', '13:00-15:00'];
+  late List<Map<String, String>> _deliveryOptions;
 
   // Add saved personal information and payment method
   Map<String, String> _savedPersonalInfo = {};
@@ -46,6 +42,7 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
   @override
   void initState() {
     super.initState();
+    _deliveryOptions = generateDeliveryOptions();
     _imatDataHandler = Provider.of<ImatDataHandler>(context, listen: false);
     Customer customer = _imatDataHandler.getCustomer();
 
@@ -89,6 +86,23 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
     });
   }
 
+  List<Map<String, String>> generateDeliveryOptions({int daysAhead = 3}) {
+    final today = DateTime.now();
+    final options = <Map<String, String>>[];
+
+    for (int i = 0; i < daysAhead; i++) {
+      final date = today.add(Duration(days: i));
+      final formattedDate =
+          '${date.year}-${_twoDigits(date.month)}-${_twoDigits(date.day)}';
+      for (final time in _timeSlots) {
+        options.add({'date': formattedDate, 'time': time});
+      }
+    }
+
+    return options;
+  }
+
+  String _twoDigits(int n) => n.toString().padLeft(2, '0');
   Future<void> _savePersonalInfo() async {
     final prefs = await SharedPreferences.getInstance();
     Customer customer = _imatDataHandler.getCustomer();

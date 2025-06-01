@@ -191,35 +191,45 @@ class ShoppingCart extends StatelessWidget {
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return Dialog(
-                        insetPadding: EdgeInsets.only(
-                          left: 200,
-                          right: 200,
-                          top: 20,
-                          bottom: 20,
+                  if (iMat.getShoppingCart().items.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                          'Tom varukorg, lägg till något för att fortsätta',
                         ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                        child: SizedBox(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                              16,
-                            ), // Adjust radius as needed
-                            child:
-                                CheckoutWizard(), // The widget from checkout_wizard.dart
+                      ),
+                    );
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Dialog(
+                          insetPadding: EdgeInsets.only(
+                            left: 200,
+                            right: 200,
+                            top: 20,
+                            bottom: 20,
                           ),
-                        ),
-                      );
-                    },
-                  );
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          child: SizedBox(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                16,
+                              ), // Adjust radius as needed
+                              child:
+                                  CheckoutWizard(), // The widget from checkout_wizard.dart
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor:
-                      AppTheme.colorScheme.tertiary, // Set button color to red
+                      AppTheme.colorScheme.primary, // Set button color to red
                   foregroundColor: Colors.white, // Set text color to black
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8), // Rounded corners

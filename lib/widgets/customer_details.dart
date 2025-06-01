@@ -109,5 +109,8 @@ class _CustomerDetailsState extends State<CustomerDetails> {
 
     // This is needed to trigger updates to the server
     _imatDataHandler.setCustomer(customer);
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Information sparad!')));
   }
 }

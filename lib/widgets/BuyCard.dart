@@ -70,7 +70,7 @@ class _BuyCardState extends State<BuyCard> {
                     setState(() {});
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppTheme.colorScheme.tertiary,
+                    backgroundColor: AppTheme.colorScheme.primary,
                     // Set the button color
                     foregroundColor:
                         AppTheme.colorScheme.onPrimary, // Set the text color

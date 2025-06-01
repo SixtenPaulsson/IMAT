@@ -128,8 +128,12 @@ class _HistoryViewState extends State<HistoryView> {
   }
 
   Widget _ordersList(BuildContext context, List<Order> orders, Function onTap) {
-    return ListView(
-      children: [for (final order in orders.reversed) _orderInfo(order, onTap)],
+    final reversedOrders = orders.reversed.toList();
+    return ListView.separated(
+      itemCount: reversedOrders.length,
+      itemBuilder: (context, index) => _orderInfo(reversedOrders[index], onTap),
+      separatorBuilder:
+          (context, index) => Divider(height: 1, color: Colors.blueGrey),
     );
   }
 
@@ -206,7 +210,7 @@ class _HistoryViewState extends State<HistoryView> {
   // This uses the package intl
   String _formatDateTime(DateTime dt) {
     final formatter = DateFormat('yyyy-MM-dd, HH:mm');
-    return formatter.format(dt);
+    return "Produkter den " + (formatter.format(dt));
   }
 
   // THe view to the right.
@@ -219,8 +223,16 @@ class _HistoryViewState extends State<HistoryView> {
       return ListView(
         children: [
           Text(
+            "Tidigare köp",
+            style: Theme.of(context).textTheme.headlineMedium,
+          ),
+          Text(
+            "Välj tidigare köp till vänster eller tryck handla för att gå tillbaka",
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
+          Text(
             _formatDateTime(order.date),
-            style: Theme.of(context).textTheme.headlineSmall,
+            style: Theme.of(context).textTheme.bodyLarge,
           ),
           SizedBox(height: AppTheme.paddingSmall),
           for (final item in order.items) _producttile(item, imat),

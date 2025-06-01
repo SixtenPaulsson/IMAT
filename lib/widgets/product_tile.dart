@@ -70,11 +70,19 @@ class ProductTile extends StatelessWidget {
             ? Icon(Icons.star, color: Colors.orange)
             : Icon(Icons.star_border, color: Colors.orange);
 
-    return IconButton(
-      onPressed: () {
-        iMat.toggleFavorite(product);
-      },
-      icon: icon,
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.red),
+        borderRadius: BorderRadius.circular(20),
+        color: Colors.white,
+      ),
+
+      child: IconButton(
+        onPressed: () {
+          iMat.toggleFavorite(product);
+        },
+        icon: icon,
+      ),
     );
   }
 }
