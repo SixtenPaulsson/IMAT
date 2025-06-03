@@ -77,7 +77,7 @@ class ShoppingCart extends StatelessWidget {
                                     vertical: 6,
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(5.0),
                                     child: Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
