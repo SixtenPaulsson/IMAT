@@ -69,13 +69,6 @@ class ShoppingCart extends StatelessWidget {
                                   vertical: 8.0,
                                   horizontal: 4.0,
                                 ),
-                                child: Text(
-                                  entry.key.name,
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
                               ),
                               ...entry.value.map(
                                 (item) => Card(
